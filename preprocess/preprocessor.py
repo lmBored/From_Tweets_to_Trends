@@ -1,5 +1,36 @@
 import re
 
+tweets_keys = ['id',
+               'text',
+               'in_reply_to_status_id',
+               'in_reply_to_user_id',
+               'reply_count',
+               'favorite_count',
+               'coordinates',
+               'place',
+               'timestamp_ms',
+               'retweet_count']
+
+users_keys = ['id',
+              'verified',
+              'followers_count',
+              'statuses_count']
+
+airlines_list = ['klm',
+                 'airfrance',
+                 'air france',
+                 'british_airways', 'british airways',
+                 'americanair', 'american airlines', 'american air',
+                 'lufthansa',
+                 'airberlin', 'air berlin',
+                 'airberlin assist', 'air berlin assist', 'airberlinassist',
+                 'easyjet', 'easy jet',
+                 'ryanair', 'ryan air',
+                 'singaporeair', 'singapore airlines', 'singapore air',
+                 'qantas',
+                 'etihad airways', 'etihadairways', 'etihad',
+                 'virgin atlantic', 'virginatlantic']
+
 def text_transformer(text):
     text = re.sub(r'http\S+', '', text)
     text = re.sub(r'#', '', text)

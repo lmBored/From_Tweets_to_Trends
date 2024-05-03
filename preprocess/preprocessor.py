@@ -10,22 +10,20 @@ def text_transformer(text):
     return text
 
 def preprocessor(tweet):
+    text = ''
     if 'extended_tweet' in tweet:
         text = tweet['extended_tweet']['full_text']
-    else:
-        if 'text' in tweet:
-            text = tweet['text']
-        else:
-            pass
-
+    elif 'text' in tweet:
+        text = tweet['text']
+            
     text = text_transformer(text)
-
+            
     if 'delete' not in tweet:
         tweets_info = {k:v for k,v in tweet.items() if k in tweets_keys}
         users_info = {k:v for k,v in tweet['user'].items() if k in users_keys}
         users_info['user_id'] = users_info.pop('id')
         tweets_info.update(users_info)
-
+        
         airlines_mentioned = [airline for airline in airlines_list if airline in text.lower()] # Need to also consider changing language
         mentioned_id = [i['id'] for i in tweet['entities']['user_mentions']]
         # text = re.sub(r'@[^ ]+', '', text) # remove username

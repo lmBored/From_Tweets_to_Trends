@@ -34,7 +34,7 @@ $ python main.py
 In order to add csv to your database, you can either:
 
 1. Run `SHOW VARIABLES LIKE "secure_file_priv";` then move your file to the directory specified by `secure-file-priv`.
-2. Disable `secure-file-priv`. Must be done from startup.
+2. Disable `secure-file-priv`. This must be done from startup.
 3. Use `LOCAL`: `LOAD DATA LOCAL INFILE 'dataset.csv' INTO TABLE tweets;`
 
 <!-- ## Getting started

@@ -1,5 +1,4 @@
 .env
-config/
 data/
 remnants/
 .ipynb_checkpoints/

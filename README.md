@@ -1,12 +1,35 @@
 # DBL_data_challenge
 
-## Preprocessing
+## Tutorial
 
-Before running `main.py`, create `database.csv`:
+Install requirements (into your desired environment):
+
+```console
+$ pip install -r requirements.txt
+```
+
+Create `.env` file:
+
+```dotenv
+HOST=your_host
+USERNAME=your_username
+PASSWORD=your_pass
+DATABASE=your_dbname
+```
+
+Create `database.csv`:
 
 ```console
 $ touch database.csv
 ```
+
+Run `main.py`:
+
+```console
+$ python main.py
+```
+
+## Preprocessing
 
 In order to add csv to your database, you can either:
 

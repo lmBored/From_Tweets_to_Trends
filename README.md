@@ -2,6 +2,10 @@
 
 ## Preprocessing
 
+Before running `main.py`, create `database.csv`:
+
+> touch database.csv
+
 In order to add csv to your database, you can either:
 
 1. Run `SHOW VARIABLES LIKE "secure_file_priv";` then move your file to the directory specified by `secure-file-priv`.

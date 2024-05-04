@@ -4,7 +4,9 @@
 
 Before running `main.py`, create `database.csv`:
 
-> touch database.csv
+```console
+$ touch database.csv
+```
 
 In order to add csv to your database, you can either:
 

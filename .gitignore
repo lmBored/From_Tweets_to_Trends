@@ -1,0 +1,7 @@
+.env
+config/
+data/
+remnants/
+.ipynb_checkpoints/
+Untitled.ipynb
+dataset.csv

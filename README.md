@@ -17,6 +17,12 @@ PASSWORD=your_pass
 DATABASE=your_dbname
 ```
 
+create your database:
+
+```console
+mysql> create database your_dbname;
+```
+
 Create `database.csv`:
 
 ```console

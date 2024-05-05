@@ -12,7 +12,7 @@ def reader(path):
             try:
                 yield json.loads(line)
             except json.JSONDecodeError:
-                print(f"Error decoding JSON for line: {line}")
+                print(f"Error decoding JSON for line: {line}", file=sys.stderr)
                 continue
 
 def csv_adder(data, output_file = 'dataset.csv'):
@@ -53,7 +53,7 @@ def csv_adder(data, output_file = 'dataset.csv'):
             if errors == 0:
                 print(f"✅ {path} appended.")
             else:
-                print(f"❌ {path} not appended processed - {errors} exceptions ignored.")
+                print(f"❌ {path} not appended processed - {errors} exceptions ignored.", file=sys.stderr)
             counter = i + 1
             elapsed += duration
             time_remaining = (len(data) - counter) * (elapsed / counter)
@@ -97,7 +97,7 @@ def tweets_loader(connection, data):
         if errors == 0:
             print(f"✅ {path} appended.")
         else:
-            print(f"❌ {path} not appended processed - {errors} exceptions ignored.")
+            print(f"❌ {path} not appended processed - {errors} exceptions ignored.", file=sys.stderr)
         counter = i + 1
         elapsed += duration
         time_remaining = (len(data) - counter) * (elapsed / counter)

@@ -4,7 +4,8 @@ import csv
 import logging
 import timeit
 import datetime
-import preprocessor
+from preprocess import preprocessor
+import re
 
 def reader(path):
     with open(path) as f:
@@ -41,7 +42,7 @@ def csv_adder(data, output_file = 'dataset.csv'):
                         p_tweet[k] = v
                     try:
                         writer.writerow(p_tweet)
-                    except JSONDecodeError as j:
+                    except json.JSONDecodeError as j:
                         if path == 'data/airlines-1565894560588.json':
                             logging.error(f"File missing. {j}")
                             pass

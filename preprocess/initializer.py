@@ -1,3 +1,5 @@
+from config import config
+
 airlines_dict = {"KLM": 56377143 ,
                  "AirFrance": 106062176 ,
                  "British_Airways": 18332190 ,

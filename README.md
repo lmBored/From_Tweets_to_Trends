@@ -2,6 +2,8 @@
 
 ## Tutorial
 
+Put your data inside `data/` folder. Note that there might still exists a zip file inside `data/` after extracting.
+
 Install requirements (into your desired environment):
 
 ```console

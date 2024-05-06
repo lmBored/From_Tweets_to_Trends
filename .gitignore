@@ -6,3 +6,5 @@ Untitled.ipynb
 dataset.csv
 .DS_Store
 config/.DS_Store
+.vscode/
+preprocess/__pycache__/

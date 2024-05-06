@@ -1,4 +1,5 @@
 import re
+import logging
 
 airlines_dict = {"KLM": 56377143 ,
                  "AirFrance": 106062176 ,

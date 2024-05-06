@@ -38,7 +38,7 @@ def csv_adder(data, output_file = 'dbl_data_challenge/dataset.csv'):
                         if k not in ['text', 'coordinates', 'place', 'language', 'mentioned_airlines', 'user_mentions', 'retweeted_status']:
                             v = v.replace("'", "")
                         else:
-                            v = '"' + v.replace("'", "") + '"'
+                            v = "'" + v.replace("'", "") + "'"
                         p_tweet[k] = v
                     try:
                         writer.writerow(p_tweet)
@@ -66,7 +66,7 @@ def tweets_loader_csv(connection, data, path = 'dataset.csv'):
     LOAD DATA LOCAL INFILE '{path}'
     INTO TABLE tweets
     FIELDS TERMINATED BY ','
-    ENCLOSED BY "'"
+    ENCLOSED BY "'" 
     IGNORE 1 ROWS
     """
     connection.cursor().execute(query)
@@ -90,7 +90,7 @@ def tweets_loader(connection, data):
                     if k not in ['text', 'coordinates', 'place', 'language', 'mentioned_airlines', 'user_mentions', 'retweeted_status']:
                         v = v.replace("'", "")
                     else:
-                        v = '"' + v.replace("'", "") + '"'
+                        v = "'" + v.replace("'", "") + "'"
                     raw_values.append(v)
                 values = ", ".join(raw_values)
                 query = f"INSERT IGNORE INTO `tweets` ({columns}) VALUES ({values})"

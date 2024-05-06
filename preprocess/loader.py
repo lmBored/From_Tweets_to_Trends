@@ -30,14 +30,14 @@ def csv_adder(data, output_file = 'dataset.csv'):
                     if writer is None:
                         writer = csv.DictWriter(file, fieldnames=p_tweet.keys())
                         writer.writeheader()
-
+                    
                     for k, v in p_tweet.items():
                         v = str(v)
                         v = re.sub(r'http\S+', 'url_removed', v)
                         if k not in ['text', 'coordinates', 'place', 'language', 'mentioned_airlines', 'user_mentions', 'retweeted_status']:
                             v = v.replace("'", "")
                         else:
-                            v = f"'{v.replace("'", "")}'"
+                            v = f'"{v.replace("'", "")}"'
                         p_tweet[k] = v
                     try:
                         writer.writerow(p_tweet)
@@ -48,7 +48,7 @@ def csv_adder(data, output_file = 'dataset.csv'):
                     except Exception as e:
                         logging.error(f"Error: {e}, Tweet: {tweet}")
                         errors += 1
-
+                    
             duration = timeit.default_timer() - start
             if errors == 0:
                 print(f"✅ {path} appended.")
@@ -61,7 +61,13 @@ def csv_adder(data, output_file = 'dataset.csv'):
             print("-----------------------------------")
 
 def tweets_loader_csv(connection, data, path = 'dataset.csv'):
-    query = f"LOAD DATA FROM INFILE '{path}' INTO TABLE tweets"
+    query = f"""
+    LOAD DATA LOCAL INFILE '{path}'
+    INTO TABLE tweets
+    FIELDS TERMINATED BY ','
+    ENCLOSED BY "'"
+    IGNORE 1 ROWS
+    """
     connection.cursor().execute(query)
 
 def tweets_loader(connection, data):
@@ -83,7 +89,7 @@ def tweets_loader(connection, data):
                     if k not in ['text', 'coordinates', 'place', 'language', 'mentioned_airlines', 'user_mentions', 'retweeted_status']:
                         v = v.replace("'", "")
                     else:
-                        v = f"'{v.replace("'", "")}'"
+                        v = f'"{v.replace("'", "")}"'
                     raw_values.append(v)
                 values = ", ".join(raw_values)
                 query = f"INSERT IGNORE INTO `tweets` ({columns}) VALUES ({values})"

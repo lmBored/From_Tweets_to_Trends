@@ -25,19 +25,19 @@ def csv_adder(data, output_file = 'dataset.csv'):
             print(f"📍 Processing: {path}")
             start = timeit.default_timer()
             for j, tweet in enumerate(dataset):
-                p_tweet = preprocessor.preprocessor(tweet)
+                p_tweet = preprocessor(tweet)
                 if p_tweet is not None:
                     if writer is None:
                         writer = csv.DictWriter(file, fieldnames=p_tweet.keys())
                         writer.writeheader()
-
+                    
                     for k, v in p_tweet.items():
                         v = str(v)
                         v = re.sub(r'http\S+', 'url_removed', v)
                         if k not in ['text', 'coordinates', 'place', 'language', 'mentioned_airlines', 'user_mentions', 'retweeted_status']:
                             v = v.replace("'", "")
                         else:
-                            v = f"'{v.replace("'", "")}'"
+                            v = f'"{v.replace("'", "")}"'
                         p_tweet[k] = v
                     try:
                         writer.writerow(p_tweet)
@@ -48,12 +48,12 @@ def csv_adder(data, output_file = 'dataset.csv'):
                     except Exception as e:
                         logging.error(f"Error: {e}, Tweet: {tweet}")
                         errors += 1
-
+                    
             duration = timeit.default_timer() - start
             if errors == 0:
                 print(f"✅ {path} appended.")
             else:
-                print(f"❌ {path} not appended processed - {errors} exceptions ignored.", file=sys.stderr)
+                print(f"❌ {path} not appended processed - {errors} exceptions ignored.", file=stderr)
             counter = i + 1
             elapsed += duration
             time_remaining = (len(data) - counter) * (elapsed / counter)
@@ -61,7 +61,13 @@ def csv_adder(data, output_file = 'dataset.csv'):
             print("-----------------------------------")
 
 def tweets_loader_csv(connection, data, path = 'dataset.csv'):
-    query = f"LOAD DATA FROM INFILE '{path}' INTO TABLE tweets"
+    query = f"""
+    LOAD DATA LOCAL INFILE '{path}'
+    INTO TABLE tweets
+    FIELDS TERMINATED BY ','
+    ENCLOSED BY "'"
+    IGNORE 1 ROWS
+    """
     connection.cursor().execute(query)
 
 def tweets_loader(connection, data):
@@ -73,7 +79,7 @@ def tweets_loader(connection, data):
         print(f"📍 Processing: {path}")
         start = timeit.default_timer()
         for j, tweet in enumerate(dataset):
-            p_tweet = preprocessor.preprocessor(tweet)
+            p_tweet = preprocessor(tweet)
             if p_tweet is not None:
                 columns = ', '.join(p_tweet.keys())
                 raw_values = []
@@ -83,7 +89,7 @@ def tweets_loader(connection, data):
                     if k not in ['text', 'coordinates', 'place', 'language', 'mentioned_airlines', 'user_mentions', 'retweeted_status']:
                         v = v.replace("'", "")
                     else:
-                        v = f"'{v.replace("'", "")}'"
+                        v = f'"{v.replace("'", "")}"'
                     raw_values.append(v)
                 values = ", ".join(raw_values)
                 query = f"INSERT IGNORE INTO `tweets` ({columns}) VALUES ({values})"
@@ -97,7 +103,7 @@ def tweets_loader(connection, data):
         if errors == 0:
             print(f"✅ {path} appended.")
         else:
-            print(f"❌ {path} not appended processed - {errors} exceptions ignored.", file=sys.stderr)
+            print(f"❌ {path} not appended processed - {errors} exceptions ignored.", file=stderr)
         counter = i + 1
         elapsed += duration
         time_remaining = (len(data) - counter) * (elapsed / counter)

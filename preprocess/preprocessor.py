@@ -69,32 +69,62 @@ def preprocessor(tweet):
         text = text_transformer(text)
                 
         if 'delete' not in tweet:
-            tweets_info = {k:v for k,v in tweet.items() if k in tweets_keys}
-            users_info = {k:v for k,v in tweet['user'].items() if k in users_keys}
+            tweets_info = {k:0 if k in ['id', 'in_reply_to_status_id', 'in_reply_to_user_id', 'reply_count', 'retweet_count', 'favorite_count',
+                                        'timestamp_ms'] else 'NULL' for k in tweets_keys}
+            tweets_info.update({k:v for k,v in tweet.items() if k in tweets_keys})
+    
+            users_info = {'id': 0, 'verified':0, 'followers_count':0, 'statuses_count':0}
+            users_info.update({k:v for k,v in tweet['user'].items() if k in users_keys})
+            if users_info['verified'] == True:
+                users_info['verified'] = 1
+            else:
+                users_info['verified'] = 0
             users_info['user_id'] = users_info.pop('id')
             tweets_info.update(users_info)
             
             airlines_mentioned = [airline for airline in airlines_list if airline in text.lower()] # Need to also consider changing language
             mentioned_id = [i['id'] for i in tweet['entities']['user_mentions']]
             # text = re.sub(r'@[^ ]+', '', text) # remove username
-            extended_tweets = {'text':text, 'language':tweet['lang'], 'mentioned_airlines':airlines_mentioned, 'user_mentions':mentioned_id}
+            lang = tweet['lang']
+            if ('lang' in tweet and tweet['lang'] == None) or 'lang' not in tweet:
+                lang = 'und'
+            extended_tweets = {'text':text, 'language':lang, 'mentioned_airlines':airlines_mentioned, 'user_mentions':mentioned_id}
             tweets_info.update(extended_tweets)
     
             if 'retweeted_status' in tweet:
                 retweeted_status = {}
-                retweeted_status['retweeted_status'] = {k:v for k,v in tweet['retweeted_status'].items() if k in ['id', 'text']}
-                user_in_retweeted_status = {k:v for k,v in tweet['retweeted_status']['user'].items() if k in users_keys}
-                user_in_retweeted_status['user_id'] = user_in_retweeted_status.pop('id')
+                retweeted_status['retweeted_status'] = {'id': 0, 'text': 'NULL'}
+                retweeted_status['retweeted_status'].update({k:v for k,v in tweet['retweeted_status'].items() if k in ['id', 'text']})
+    
+                if 'user' in tweet['retweeted_status']:
+                    user_in_retweeted_status = {'id': 0, 'verified':0, 'followers_count':0, 'statuses_count':0}
+                    user_in_retweeted_status.update({k:v for k,v in tweet['retweeted_status']['user'].items() if k in users_keys})
+                    if user_in_retweeted_status['verified'] == True:
+                        user_in_retweeted_status['verified'] = 1
+                    else:
+                        user_in_retweeted_status['verified'] = 0
+                    user_in_retweeted_status['user_id'] = user_in_retweeted_status.pop('id')
+                else:
+                    user_in_retweeted_status = {'user_id': 0, 'verified':0, 'followers_count':0, 'statuses_count':0}
+                
                 retweeted_status['retweeted_status'].update(user_in_retweeted_status)
+                for i in retweeted_status:
+                    if retweeted_status[i] == None:
+                        retweeted_status[i] == 'NULL'
                 tweets_info.update(retweeted_status)
             else:
-                tweets_info['retweeted_status'] = 'NULL'
+                tweets_info['retweeted_status'] = {'id': 'NULL', 'text': 'NULL'}
     
-            nullables = ['in_reply_to_status_id', 'in_reply_to_user_id', 'coordinates', 'place', 'retweeted_status']
+            nullables_int = ['in_reply_to_status_id', 'in_reply_to_user_id', ]
+            for i in nullables_int:
+                if tweets_info[i] == None:
+                    tweets_info[i] = 0
+                    
+            nullables = ['coordinates', 'place', 'retweeted_status']
             for i in nullables:
                 if tweets_info[i] == None:
                     tweets_info[i] = 'NULL'
-    
+                    
             return tweets_info
             
     except Exception as e:

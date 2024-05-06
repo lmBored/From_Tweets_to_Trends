@@ -4,3 +4,5 @@ remnants/
 .ipynb_checkpoints/
 Untitled.ipynb
 dataset.csv
+.DS_Store
+config/.DS_Store

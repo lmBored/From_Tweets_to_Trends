@@ -3,8 +3,8 @@ from preprocess import preprocessor, loader, initializer
 if __name__ = '__main__':
     data = [Path("data/"+file) for file in os.listdir('data')]
 
-    connection = mysql.connector.connect(host=config.get('HOST'), user=config.get('USERNAME'), password=config.get('PASSWORD'),database=config.get('DATABASE'))
-    
+    connection = mysql.connector.connect(host=config.get('HOST'), user=config.get('USERNAME'), password=config.get('PASSWORD'),database=config.get('DATABASE'), allow_local_infile=True)    
+
     initializer.table(connection)
     loader.csv_adder(data)
     loader.tweets_loader_csv(connection, data, path = 'dataset.csv')

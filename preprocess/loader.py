@@ -25,7 +25,7 @@ def csv_adder(data, output_file = 'dataset.csv'):
             print(f"📍 Processing: {path}")
             start = timeit.default_timer()
             for j, tweet in enumerate(dataset):
-                p_tweet = preprocessor(tweet)
+                p_tweet = preprocessor.preprocessor(tweet)
                 if p_tweet is not None:
                     if writer is None:
                         writer = csv.DictWriter(file, fieldnames=p_tweet.keys())
@@ -53,7 +53,7 @@ def csv_adder(data, output_file = 'dataset.csv'):
             if errors == 0:
                 print(f"✅ {path} appended.")
             else:
-                print(f"❌ {path} not appended processed - {errors} exceptions ignored.", file=stderr)
+                print(f"❌ {path} not appended processed - {errors} exceptions ignored.", file=sys.stderr)
             counter = i + 1
             elapsed += duration
             time_remaining = (len(data) - counter) * (elapsed / counter)
@@ -79,7 +79,7 @@ def tweets_loader(connection, data):
         print(f"📍 Processing: {path}")
         start = timeit.default_timer()
         for j, tweet in enumerate(dataset):
-            p_tweet = preprocessor(tweet)
+            p_tweet = preprocessor.preprocessor(tweet)
             if p_tweet is not None:
                 columns = ', '.join(p_tweet.keys())
                 raw_values = []
@@ -103,7 +103,7 @@ def tweets_loader(connection, data):
         if errors == 0:
             print(f"✅ {path} appended.")
         else:
-            print(f"❌ {path} not appended processed - {errors} exceptions ignored.", file=stderr)
+            print(f"❌ {path} not appended processed - {errors} exceptions ignored.", file=sys.stderr)
         counter = i + 1
         elapsed += duration
         time_remaining = (len(data) - counter) * (elapsed / counter)

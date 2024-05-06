@@ -38,7 +38,7 @@ def csv_adder(data, output_file = 'dataset.csv'):
                         if k not in ['text', 'coordinates', 'place', 'language', 'mentioned_airlines', 'user_mentions', 'retweeted_status']:
                             v = v.replace("'", "")
                         else:
-                            v = f'"{v.replace("'", "")}"'
+                            v = '"' + v.replace("'", "") + '"'
                         p_tweet[k] = v
                     try:
                         writer.writerow(p_tweet)
@@ -90,7 +90,7 @@ def tweets_loader(connection, data):
                     if k not in ['text', 'coordinates', 'place', 'language', 'mentioned_airlines', 'user_mentions', 'retweeted_status']:
                         v = v.replace("'", "")
                     else:
-                        v = f'"{v.replace("'", "")}"'
+                        v = '"' + v.replace("'", "") + '"'
                     raw_values.append(v)
                 values = ", ".join(raw_values)
                 query = f"INSERT IGNORE INTO `tweets` ({columns}) VALUES ({values})"

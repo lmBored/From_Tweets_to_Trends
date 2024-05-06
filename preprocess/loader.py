@@ -16,7 +16,7 @@ def reader(path):
                 print(f"Error decoding JSON for line: {line}", file=sys.stderr)
                 continue
 
-def csv_adder(data, output_file = 'dataset.csv'):
+def csv_adder(data, output_file = 'dbl_data_challenge/dataset.csv'):
     with open(output_file, 'w', newline='') as file:
         writer = None
         elapsed = 0

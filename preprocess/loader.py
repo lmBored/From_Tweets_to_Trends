@@ -7,6 +7,14 @@ import datetime
 from preprocess import preprocessor
 import re
 
+file_with_missed_data = ['data/airlines-1565894560588.json',
+                         'data/airlines-1569957146471.json',
+                         'data/airlines-1573229502947.json',
+                         'data/airlines-1575313134067.json',
+                         'data/airlines-1570104381202.json',
+                         'data/airlines-1560138591670.json',
+                         'data/airlines-1560138591670.json']
+
 def reader(path):
     with open(path) as f:
         for line in f:
@@ -35,7 +43,7 @@ def csv_adder(data, output_file = 'dataset.csv'):
                     for k, v in p_tweet.items():
                         v = str(v)
                         v = re.sub(r'http\S+', 'url_removed', v)
-                        if k not in ['text', 'coordinates', 'place', 'language', 'mentioned_airlines', 'user_mentions', 'retweeted_status']:
+                        if k not in ['text', 'coordinates', 'language', 'mentioned_airlines', 'user_mentions', 'retweeted_status']:
                             v = v.replace("'", "")
                         else:
                             v = "'" + v.replace("'", "") + "'"
@@ -43,7 +51,7 @@ def csv_adder(data, output_file = 'dataset.csv'):
                     try:
                         writer.writerow(p_tweet)
                     except json.JSONDecodeError as j:
-                        if path == 'data/airlines-1565894560588.json':
+                        if path in file_with_missed_data:
                             logging.error(f"File missing. {j}")
                             pass
                     except Exception as e:
@@ -110,28 +118,6 @@ def tweets_loader(connection, data):
         time_remaining = (len(data) - counter) * (elapsed / counter)
         print(f"⏯️ Process: {(counter/len(data))*100:.2f}% - #️⃣ {counter}/{len(data)} files processed - ⏳ Time remaining : {str(datetime.timedelta(seconds=time_remaining))}")
         print("-----------------------------------")
-
-def users_loader(connection, data):
-    for path in data:
-        dataset = reader(path)
-        for tweet in dataset:
-            try:
-                p_tweet = preprocessor.preprocessor(tweet)
-                if p_tweet is not None:
-                    columns = ', '.join([k for k in ('user_id', 'verified', 'followers_count', 'statuses_count') if k in p_tweet.keys()])
-                    raw_values = []
-                    for k in ['user_id', 'verified', 'followers_count', 'statuses_count']:
-                        if k in p_tweet:
-                            v = str(p_tweet[k])
-                            v = re.sub(r'http\S+', 'url_removed', v)
-                            raw_values.append(v)
-                    values = ", ".join(raw_values)
-                    query = "INSERT INTO `users` (%s) VALUES (%s)" % (columns, values)
-                    insert = connection.cursor().execute(query)
-            except Exception as e:
-                logging.error(f"Error: {e}")
-                pass
-        connection.commit()
 
 def get_languages_list(data):
     for path in data:

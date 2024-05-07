@@ -23,7 +23,6 @@ def table(connection):
             `in_reply_to_status_id` BIGINT NULL , 
             `in_reply_to_user_id` BIGINT NULL ,
             `coordinates` TEXT NULL ,
-            `place` TEXT NULL ,
             `reply_count` BIGINT NULL ,
             `retweet_count` INT NULL ,
             `favorite_count` BIGINT NULL ,
@@ -38,16 +37,15 @@ def table(connection):
             `retweeted_status` TEXT NULL ,
             PRIMARY KEY (id)) ENGINE=InnoDB
             """
-    user_query = f"""
-            CREATE TABLE `{config.get('DATABASE')}`.`users`
-            (`user_id` BIGINT ,
-            `verified` BOOL NULL ,
-            `followers_count` INT NULL ,
-            `statuses_count` BIGINT NULL ,
-            PRIMARY KEY (user_id)) ENGINE=InnoDB
+    conversation_query = f"""
+            CREATE TABLE `{config.get('DATABASE')}`.`conversation`
+            (`id` BIGINT NULL ,
+            'in_reply_to_status_id' BIGINT NULL ,
+            `in_reply_to_user_id' BIGINT NULL ,
+            PRIMARY KEY (id)) ENGINE=InnoDB
             """
     connection.cursor().execute(tweet_query)
-    connection.cursor().execute(user_query)
+    connection.cursor().execute(conversation_query)
 
 def drop(connection, table):
     connection.cursor().execute(f"DROP TABLE IF EXISTS {table}")

@@ -40,7 +40,7 @@ def table(connection):
     conversation_query = f"""
             CREATE TABLE `{config.get('DATABASE')}`.`conversation`
             (`id` BIGINT NULL ,
-            'in_reply_to_status_id' BIGINT NULL ,
+            `in_reply_to_status_id` BIGINT NULL ,
             `in_reply_to_user_id' BIGINT NULL ,
             PRIMARY KEY (id)) ENGINE=InnoDB
             """

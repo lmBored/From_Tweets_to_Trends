@@ -23,7 +23,6 @@ tweets_keys = ['id',
                'reply_count',
                'favorite_count',
                'coordinates',
-               'place',
                'timestamp_ms',
                'retweet_count']
 
@@ -47,8 +46,7 @@ airlines_list = ['klm',
                  'etihad airways', 'etihadairways', 'etihad',
                  'virgin atlantic', 'virginatlantic']
 
-languages_list = ['ar','ca','cs','cy','da','de','el','en','es','et','fa','fi','fr','hi','ht','hu','in','it',
-                  'iw','ja','ko','lt','nl','no','pl','pt','ro','ru','sv','th','tl','tr','uk','und','ur','zh']
+languages_list = ['en', 'es', 'fr', 'nl', 'de', 'ja', 'ko', 'it']
 
 def text_transformer(text):
     text = re.sub(r'http\S+', '', text)
@@ -73,6 +71,9 @@ def preprocessor(tweet):
             tweets_info = {k:0 if k in ['id', 'in_reply_to_status_id', 'in_reply_to_user_id', 'reply_count', 'retweet_count', 'favorite_count',
                                         'timestamp_ms'] else 'NULL' for k in tweets_keys}
             tweets_info.update({k:v for k,v in tweet.items() if k in tweets_keys})
+            tweets_info['coordinates'] = str(tweet['coordinates']['coordinates'])
+            tweets_info['coordinates'] = re.sub(r'[\[\]]', '', tweets_info['coordinates'])
+            tweets_info['coordinates'] = re.sub(r',', ' and ', tweets_info['coordinates'])
     
             users_info = {'id': 0, 'verified':0, 'followers_count':0, 'statuses_count':0}
             users_info.update({k:v for k,v in tweet['user'].items() if k in users_keys})
@@ -89,6 +90,8 @@ def preprocessor(tweet):
             lang = tweet['lang']
             if ('lang' in tweet and tweet['lang'] == None) or 'lang' not in tweet:
                 lang = 'und'
+            if lang not in languages_list:
+                return None
             extended_tweets = {'text':text, 'language':lang, 'mentioned_airlines':airlines_mentioned, 'user_mentions':mentioned_id}
             tweets_info.update(extended_tweets)
     

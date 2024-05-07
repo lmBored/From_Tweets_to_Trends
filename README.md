@@ -25,7 +25,7 @@ create your database:
 mysql> create database your_dbname;
 ```
 
-Create `database.csv`:
+Create `database.csv` (optional):
 
 ```console
 $ touch database.csv
@@ -36,6 +36,16 @@ Run `main.py`:
 ```console
 $ python main.py
 ```
+
+If you get `AccessDenied` error when running `main.py`, try changing 
+```python
+user=config.get('USERNAME')
+```
+to 
+```python
+user='root'
+```
+in `main.py`.
 
 ## Preprocessing
 

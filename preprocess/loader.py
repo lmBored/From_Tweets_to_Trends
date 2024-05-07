@@ -39,17 +39,23 @@ def csv_adder(data, output_file = 'dataset.csv'):
                     if writer is None:
                         writer = csv.DictWriter(file, fieldnames=p_tweet.keys())
                         writer.writeheader()
-                    
+
+                    raw_values = []         
                     for k, v in p_tweet.items():
                         v = str(v)
+                        v = re.sub(r',', '', v)
                         v = re.sub(r'http\S+', 'url_removed', v)
-                        if k not in ['text', 'coordinates', 'language', 'mentioned_airlines', 'user_mentions', 'retweeted_status']:
+                        v = re.sub(r'\n', '', v)
+                        if k not in ['text', 'coordinates', 'language', 'mentioned_airlines', 'user_mentions']:
                             v = v.replace("'", "")
                         else:
                             v = "'" + v.replace("'", "") + "'"
-                        p_tweet[k] = v
+                        raw_values.append(v)
+                        values = ", ".join(raw_values)
+                        # p_tweet[k] = v
                     try:
-                        writer.writerow(p_tweet)
+                        # writer.writerow(p_tweet)
+                        file.write(f"{values}\n")
                     except json.JSONDecodeError as j:
                         if path in file_with_missed_data:
                             logging.error(f"File missing. {j}")
@@ -78,6 +84,8 @@ def tweets_loader_csv(connection, data, path = 'dataset.csv'):
     IGNORE 1 ROWS
     """
     connection.cursor().execute(query)
+    connection.commit()
+    print(f"✅ {path} appended.")
 
 def tweets_loader(connection, data):
     elapsed = 0
@@ -94,8 +102,10 @@ def tweets_loader(connection, data):
                 raw_values = []
                 for k, v in p_tweet.items():
                     v = str(v)
+                    v = re.sub(r',', '', v)
                     v = re.sub(r'http\S+', 'url_removed', v)
-                    if k not in ['text', 'coordinates', 'language', 'mentioned_airlines', 'user_mentions', 'retweeted_status']:
+                    v = re.sub(r'\n', '', v)
+                    if k not in ['text', 'coordinates', 'language', 'mentioned_airlines', 'user_mentions']:
                         v = v.replace("'", "")
                     else:
                         v = "'" + v.replace("'", "") + "'"
@@ -118,6 +128,8 @@ def tweets_loader(connection, data):
         time_remaining = (len(data) - counter) * (elapsed / counter)
         print(f"⏯️ Process: {(counter/len(data))*100:.2f}% - #️⃣ {counter}/{len(data)} files processed - ⏳ Time remaining : {str(datetime.timedelta(seconds=time_remaining))}")
         print("-----------------------------------")
+        cursor.close()
+        connection.close()
 
 def get_languages_list(data):
     for path in data:

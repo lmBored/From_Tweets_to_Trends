@@ -34,7 +34,12 @@ def table(connection):
             `language` VARCHAR(3) NULL ,
             `mentioned_airlines` TEXT NULL ,
             `user_mentions` TEXT NULL ,
-            `retweeted_status` TEXT NULL ,
+            `retweeted_status_id` BIGINT NULL ,
+            `retweeted_status_text` TEXT NULL ,
+            `retweeted_status_user_id` BIGINT NULL ,
+            `retweeted_status_verified` BOOLEAN NULL ,
+            `retweeted_status_followers_count` INT NULL ,
+            `retweeted_status_statuses_count` INT NULL ,
             PRIMARY KEY (id)) ENGINE=InnoDB
             """
     conversation_query = f"""

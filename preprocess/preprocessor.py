@@ -54,6 +54,7 @@ def text_transformer(text):
     text = re.sub(r'([A-Za-z])\1{2,}', r'\1', text) # replace repeated texts, normalization
     text = re.sub(r' 0 ', 'zero', text)
     text = re.sub(r'[^A-Za-z ]', '', text)
+    text = re.sub(r'\n', '', text)
     text = text.lower()
     return text
 
@@ -98,9 +99,8 @@ def preprocessor(tweet):
             tweets_info.update(extended_tweets)
     
             if 'retweeted_status' in tweet:
-                retweeted_status = {}
-                retweeted_status['retweeted_status'] = {'id': 0, 'text': 'NULL'}
-                retweeted_status['retweeted_status'].update({k:v for k,v in tweet['retweeted_status'].items() if k in ['id', 'text']})
+                retweeted_status = {'retweeted_status_id': 0, 'retweeted_status_text': 'NULL'}
+                retweeted_status.update({k:v for k,v in tweet['retweeted_status'].items() if k in ['id', 'text']})
     
                 if 'user' in tweet['retweeted_status']:
                     user_in_retweeted_status = {'id': 0, 'verified':0, 'followers_count':0, 'statuses_count':0}
@@ -109,24 +109,36 @@ def preprocessor(tweet):
                         user_in_retweeted_status['verified'] = 1
                     else:
                         user_in_retweeted_status['verified'] = 0
-                    user_in_retweeted_status['user_id'] = user_in_retweeted_status.pop('id')
+                    user_in_retweeted_status['retweeted_status_user_id'] = user_in_retweeted_status.pop('id')
+                    user_in_retweeted_status['retweeted_status_verified'] = user_in_retweeted_status.pop('verified')
+                    user_in_retweeted_status['retweeted_status_followers_count'] = user_in_retweeted_status.pop('followers_count')
+                    user_in_retweeted_status['retweeted_status_statuses_count'] = user_in_retweeted_status.pop('statuses_count')
                 else:
-                    user_in_retweeted_status = {'user_id': 0, 'verified':0, 'followers_count':0, 'statuses_count':0}
+                    user_in_retweeted_status = {'retweeted_status_user_id': 0,
+                                                'retweeted_status_verified':0,
+                                                'retweeted_status_followers_count':0,
+                                                'retweeted_status_statuses_count':0}
                 
-                retweeted_status['retweeted_status'].update(user_in_retweeted_status)
+                retweeted_status.update(user_in_retweeted_status)
                 for i in retweeted_status:
                     if retweeted_status[i] == None:
                         retweeted_status[i] == 'NULL'
                 tweets_info.update(retweeted_status)
             else:
-                tweets_info['retweeted_status'] = {'id': 'NULL', 'text': 'NULL'}
+                retweeted_status = {'retweeted_status_id': 0, 'retweeted_status_text': 'NULL'}
+                user_in_retweeted_status = {'retweeted_status_user_id': 0,
+                                            'retweeted_status_verified':0,
+                                            'retweeted_status_followers_count':0,
+                                            'retweeted_status_statuses_count':0}
+                retweeted_status.update(user_in_retweeted_status)
+                tweets_info.update(retweeted_status)
     
             nullables_int = ['in_reply_to_status_id', 'in_reply_to_user_id', ]
             for i in nullables_int:
                 if tweets_info[i] == None:
                     tweets_info[i] = 0
                     
-            nullables = ['coordinates', 'retweeted_status']
+            nullables = ['coordinates']
             for i in nullables:
                 if tweets_info[i] == None:
                     tweets_info[i] = 'NULL'

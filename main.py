@@ -1,3 +1,5 @@
+import re
+import timeit
 from preprocess import loader, initializer, preprocessor
 import os
 from pathlib import Path
@@ -9,13 +11,20 @@ if __name__ == '__main__':
 
     connection = mysql.connector.connect(host=config.get('HOST'), user=config.get('USERNAME'), password=config.get('PASSWORD'),database=config.get('DATABASE'), allow_local_infile=True)    
 
-    initializer.drop(connection, 'tweets')
-    initializer.drop(connection, 'conversation')
-    initializer.table(connection)
-    # loader.csv_adder(data)
-    # loader.tweets_loader_csv(connection, data, path = 'dataset.csv')
-    
-    # or you can run this
-    loader.tweets_loader(connection, data)
+    while True:
+        choice = input("Which? ")
+        if choice == 'exit':
+            break
+        elif choice == 'drop':
+            initializer.drop(connection, 'tweets')
+            initializer.drop(connection, 'conversation')
+        elif choice == 'make':
+            initializer.table(connection)
+        elif choice == 'csvadd':
+            loader.csv_adder(data, output_file='dataset.csv')
+        elif choice == 'csvload':
+            loader.tweets_loader_csv(connection, data, path='dataset.csv')
+        elif choice == 'load':
+            loader.tweets_loader(connection, data)            
 
-    
+    connection.close()

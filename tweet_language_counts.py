@@ -72,3 +72,5 @@ sorted_percentages = sorted(percentages.items(), key=lambda x: x[1], reverse=Tru
 
 for lang, percentage in sorted_percentages:
     print(f"{lang}: {percentage:.2f}%")
+
+print({k: v for k, v in sorted_percentages.items() if v > 1})

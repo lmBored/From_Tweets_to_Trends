@@ -71,9 +71,11 @@ def preprocessor(tweet):
             tweets_info = {k:0 if k in ['id', 'in_reply_to_status_id', 'in_reply_to_user_id', 'reply_count', 'retweet_count', 'favorite_count',
                                         'timestamp_ms'] else 'NULL' for k in tweets_keys}
             tweets_info.update({k:v for k,v in tweet.items() if k in tweets_keys})
-            tweets_info['coordinates'] = str(tweet['coordinates']['coordinates'])
-            tweets_info['coordinates'] = re.sub(r'[\[\]]', '', tweets_info['coordinates'])
-            tweets_info['coordinates'] = re.sub(r',', ' and ', tweets_info['coordinates'])
+
+            if 'coordinates' in tweet and tweet['coordinates'] != None:
+                tweets_info['coordinates'] = str(tweet['coordinates']['coordinates'])
+                tweets_info['coordinates'] = re.sub(r'[\[\]]', '', tweets_info['coordinates'])
+                tweets_info['coordinates'] = re.sub(r',', ' and ', tweets_info['coordinates'])
     
             users_info = {'id': 0, 'verified':0, 'followers_count':0, 'statuses_count':0}
             users_info.update({k:v for k,v in tweet['user'].items() if k in users_keys})
@@ -124,7 +126,7 @@ def preprocessor(tweet):
                 if tweets_info[i] == None:
                     tweets_info[i] = 0
                     
-            nullables = ['coordinates', 'place', 'retweeted_status']
+            nullables = ['coordinates', 'retweeted_status']
             for i in nullables:
                 if tweets_info[i] == None:
                     tweets_info[i] = 'NULL'

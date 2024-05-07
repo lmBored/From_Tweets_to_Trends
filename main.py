@@ -16,6 +16,6 @@ if __name__ == '__main__':
     # loader.tweets_loader_csv(connection, data, path = 'dataset.csv')
     
     # or you can run this
-    loader.tweets_loader((connection, data)
+    loader.tweets_loader(connection, data)
 
     

@@ -95,7 +95,7 @@ def tweets_loader(connection, data):
                 for k, v in p_tweet.items():
                     v = str(v)
                     v = re.sub(r'http\S+', 'url_removed', v)
-                    if k not in ['text', 'coordinates', 'place', 'language', 'mentioned_airlines', 'user_mentions', 'retweeted_status']:
+                    if k not in ['text', 'coordinates', 'language', 'mentioned_airlines', 'user_mentions', 'retweeted_status']:
                         v = v.replace("'", "")
                     else:
                         v = "'" + v.replace("'", "") + "'"

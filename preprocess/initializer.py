@@ -31,7 +31,7 @@ def table(connection):
             `followers_count` INT NULL ,
             `statuses_count` INT NULL ,
             `user_id` BIGINT NULL ,
-            `language` VARCHAR(3) NULL ,
+            `language` VARCHAR(5) NULL ,
             `mentioned_airlines` TEXT NULL ,
             `user_mentions` TEXT NULL ,
             `retweeted_status_id` BIGINT NULL ,

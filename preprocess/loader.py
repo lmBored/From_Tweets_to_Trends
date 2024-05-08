@@ -1,4 +1,5 @@
 import sys
+import os
 import json
 import csv
 import logging
@@ -25,6 +26,16 @@ def reader(path):
                 continue
 
 def csv_adder(data, output_file = 'dataset.csv'):
+    if os.path.exists(output_file) and os.path.getsize(output_file) > 0:
+        print(f"📛 {output_file} already exists and has contents. Overwrite? [y/n]")
+        while True:
+            choice = input()
+            if choice == 'y':
+                break
+            elif choice == 'n':
+                return
+            else:
+                print("Invalid choice.")
     with open(output_file, 'w', newline='') as file:
         writer = None
         elapsed = 0
@@ -46,7 +57,7 @@ def csv_adder(data, output_file = 'dataset.csv'):
                         v = re.sub(r',', '', v)
                         v = re.sub(r'http\S+', 'url_removed', v)
                         v = re.sub(r'\n', '', v)
-                        if k not in ['text', 'coordinates', 'language', 'mentioned_airlines', 'user_mentions']:
+                        if k not in ['text', 'coordinates', 'mentioned_airlines', 'user_mentions']:
                             v = v.replace("'", "")
                         else:
                             v = "'" + v.replace("'", "") + "'"
@@ -56,6 +67,7 @@ def csv_adder(data, output_file = 'dataset.csv'):
                     try:
                         # writer.writerow(p_tweet)
                         file.write(f"{values}\n")
+                        yield 0
                     except json.JSONDecodeError as j:
                         if path in file_with_missed_data:
                             logging.error(f"File missing. {j}")
@@ -105,7 +117,7 @@ def tweets_loader(connection, data):
                     v = re.sub(r',', '', v)
                     v = re.sub(r'http\S+', 'url_removed', v)
                     v = re.sub(r'\n', '', v)
-                    if k not in ['text', 'coordinates', 'language', 'mentioned_airlines', 'user_mentions']:
+                    if k not in ['text', 'coordinates', 'mentioned_airlines', 'user_mentions']:
                         v = v.replace("'", "")
                     else:
                         v = "'" + v.replace("'", "") + "'"

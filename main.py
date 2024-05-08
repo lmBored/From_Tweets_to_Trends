@@ -13,7 +13,7 @@ if __name__ == '__main__':
 
     while True:
         choice = input("Which? ")
-        if choice == 'exit':
+        if choice == 'q':
             break
         elif choice == 'drop':
             initializer.drop(connection, 'tweets')
@@ -25,6 +25,11 @@ if __name__ == '__main__':
         elif choice == 'csvload':
             loader.tweets_loader_csv(connection, data, path='dataset.csv')
         elif choice == 'load':
-            loader.tweets_loader(connection, data)            
+            loader.tweets_loader(connection, data)  
+        elif choice == 'a':
+            a = loader.csv_adder(data, output_file='dataset.csv')
+            [next(a) for i in range(3)]
+        else:
+            print("Invalid choice.")
 
     connection.close()

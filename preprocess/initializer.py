@@ -27,6 +27,8 @@ def table(connection):
             `coordinates` TEXT NULL ,
             `timestamp_ms` BIGINT NULL ,
             `retweet_count` INT NULL ,
+            `quoted_status_id` BIGINT NULL ,
+            `quote_count` BIGINT NULL ,
             `verified` BOOLEAN NULL ,
             `followers_count` INT NULL ,
             `statuses_count` INT NULL ,

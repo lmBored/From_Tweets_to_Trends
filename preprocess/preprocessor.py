@@ -24,27 +24,28 @@ tweets_keys = ['id',
                'favorite_count',
                'coordinates',
                'timestamp_ms',
-               'retweet_count']
+               'retweet_count',
+               'quoted_status_id',
+               'quote_count']
 
 users_keys = ['id',
               'verified',
               'followers_count',
               'statuses_count']
 
-airlines_list = ['klm',
-                 'airfrance',
-                 'air france',
-                 'british_airways', 'british airways',
-                 'americanair', 'american airlines', 'american air',
-                 'lufthansa',
-                 'airberlin', 'air berlin',
-                 'airberlin assist', 'air berlin assist', 'airberlinassist',
-                 'easyjet', 'easy jet',
-                 'ryanair', 'ryan air',
-                 'singaporeair', 'singapore airlines', 'singapore air',
-                 'qantas',
-                 'etihad airways', 'etihadairways', 'etihad',
-                 'virgin atlantic', 'virginatlantic']
+airlines_list_dict = {"KLM":  ['klm'],
+                      "AirFrance":  ['airfrance', 'air france'],
+                      "British_Airways":  ['british_airways', 'british airways'],
+                      "AmericanAir":  ['americanair', 'american airlines', 'american air'],
+                      "Lufthansa":  ['lufthansa'],
+                      "AirBerlin":  ['airberlin', 'air berlin'],
+                      "AirBerlin assist":  ['airberlin assist', 'air berlin assist', 'airberlinassist'],
+                      "easyJet":  ['easyjet', 'easy jet'],
+                      "RyanAir":  ['ryanair', 'ryan air'],
+                      "SingaporeAir":  ['singaporeair', 'singapore airlines', 'singapore air'],
+                      "Qantas":  ['qantas'],
+                      "EtihadAirways":  ['etihad airways', 'etihadairways', 'etihad'],
+                      "VirginAtlantic":  ['virgin atlantic', 'virginatlantic']}
 
 languages_list = ['en', 'es', 'fr', 'nl', 'de', 'ja', 'ko', 'it']
 
@@ -69,8 +70,7 @@ def preprocessor(tweet):
         text = text_transformer(text)
                 
         if 'delete' not in tweet:
-            tweets_info = {k:0 if k in ['id', 'in_reply_to_status_id', 'in_reply_to_user_id', 'reply_count', 'retweet_count', 'favorite_count',
-                                        'timestamp_ms'] else 'NULL' for k in tweets_keys}
+            tweets_info = {k:0 if k in ['id', 'in_reply_to_status_id', 'in_reply_to_user_id', 'reply_count', 'retweet_count', 'favorite_count', 'timestamp_ms', 'quote_count', 'quoted_status_id'] else 'NULL' for k in tweets_keys}
             tweets_info.update({k:v for k,v in tweet.items() if k in tweets_keys})
 
             if 'coordinates' in tweet and tweet['coordinates'] != None:
@@ -87,7 +87,12 @@ def preprocessor(tweet):
             users_info['user_id'] = users_info.pop('id')
             tweets_info.update(users_info)
             
-            airlines_mentioned = [airline for airline in airlines_list if airline in text.lower()] # Need to also consider changing language
+            airlines_mentioned = []
+            for airline in airlines_list_dict:
+                for i in airlines_list_dict[airline]:
+                    if i in text.lower():
+                        airlines_mentioned.append(airline)
+
             mentioned_id = [i['id'] for i in tweet['entities']['user_mentions']]
             # text = re.sub(r'@[^ ]+', '', text) # remove username
             lang = tweet['lang']

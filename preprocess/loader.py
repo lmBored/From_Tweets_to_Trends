@@ -50,7 +50,6 @@ def csv_adder(data, output_file = 'dataset.csv'):
                     if writer is None:
                         writer = csv.DictWriter(file, fieldnames=p_tweet.keys())
                         writer.writeheader()
-
                     raw_values = []         
                     for k, v in p_tweet.items():
                         v = str(v)
@@ -67,7 +66,6 @@ def csv_adder(data, output_file = 'dataset.csv'):
                     try:
                         # writer.writerow(p_tweet)
                         file.write(f"{values}\n")
-                        yield 0
                     except json.JSONDecodeError as j:
                         if path in file_with_missed_data:
                             logging.error(f"File missing. {j}")
@@ -152,5 +150,3 @@ def get_deleted_tweet(data):
     for path in data:
         dataset = reader(path)
         return [tweet for tweet in dataset if 'delete' in tweet]
-
-

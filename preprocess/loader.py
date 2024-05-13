@@ -26,9 +26,11 @@ def reader(path):
                 continue
 
 def csv_adder(data, output_file = 'dataset.csv'):
+    # Check if the output file already exists and has contents
     if os.path.exists(output_file) and os.path.getsize(output_file) > 0:
         print(f"📛 {output_file} already exists and has contents. Overwrite? [y/n]")
         while True:
+            # Ask the user if they want to overwrite the file
             choice = input()
             if choice == 'y':
                 break
@@ -36,20 +38,30 @@ def csv_adder(data, output_file = 'dataset.csv'):
                 return
             else:
                 print("Invalid choice.")
+
+    # Open the output file in write mode
     with open(output_file, 'w', newline='') as file:
         writer = None
         elapsed = 0
+
+        # Iterate over the data files
         for i, path in enumerate(data):
             errors = 0
-            dataset = reader(path)
+            dataset = reader(path) # Read the data file
+
             print(f"📍 Processing: {path}")
-            start = timeit.default_timer()
+            start = timeit.default_timer() # Start the timer
+            # Iterate over the tweets in the data file
             for j, tweet in enumerate(dataset):
+                # Preprocess the tweet
                 p_tweet = preprocessor.preprocessor(tweet)
                 if p_tweet is not None:
+                    # Write the header row if it doesn't exist
                     if writer is None:
                         writer = csv.DictWriter(file, fieldnames=p_tweet.keys())
                         writer.writeheader()
+                    
+                    # Initialize a list to store the raw values
                     raw_values = []         
                     for k, v in p_tweet.items():
                         v = str(v)
@@ -61,24 +73,35 @@ def csv_adder(data, output_file = 'dataset.csv'):
                         else:
                             v = "'" + v.replace("'", "") + "'"
                         raw_values.append(v)
+                        
+                        # Set the values of the tweet to append to the CSV file
                         values = ", ".join(raw_values)
                         # p_tweet[k] = v
+
                     try:
                         # writer.writerow(p_tweet)
-                        file.write(f"{values}\n")
+                        file.write(f"{values}\n") # Write the tweet to the CSV file
+
+                    # Handle json.JSONDecodeError exceptions
                     except json.JSONDecodeError as j:
                         if path in file_with_missed_data:
                             logging.error(f"File missing. {j}")
                             pass
+
                     except Exception as e:
                         logging.error(f"Error: {e}, Tweet: {tweet}")
                         errors += 1
-                    
+                
+            # Calculate the duration of the process
             duration = timeit.default_timer() - start
+
+            # Print the status of the process
             if errors == 0:
                 print(f"✅ {path} appended.")
             else:
                 print(f"❌ {path} not appended processed - {errors} exceptions ignored.", file=sys.stderr)
+
+            # Print the progress of the process
             counter = i + 1
             elapsed += duration
             time_remaining = (len(data) - counter) * (elapsed / counter)
@@ -98,13 +121,18 @@ def tweets_loader_csv(connection, data, path = 'dataset.csv'):
     print(f"✅ {path} appended.")
 
 def tweets_loader(connection, data):
+    # Initialize variables
     elapsed = 0
     cursor = connection.cursor()
+
+    # Iterate over the data files
     for i, path in enumerate(data):
         errors = 0
         dataset = reader(path)
         print(f"📍 Processing: {path}")
         start = timeit.default_timer()
+
+        # Iterate over the tweets in the data file
         for j, tweet in enumerate(dataset):
             p_tweet = preprocessor.preprocessor(tweet)
             if p_tweet is not None:
@@ -127,19 +155,29 @@ def tweets_loader(connection, data):
                 except Exception as e:
                     logging.error(f"Error: {e}, Tweet: {tweet}")
                     errors += 1
+
+        # Commit the changes to the database
         connection.commit()
+
+        # Calculate the duration of the process
         duration = timeit.default_timer() - start
+
+        # Print the status of the process
         if errors == 0:
             print(f"✅ {path} appended.")
         else:
             print(f"❌ {path} not appended processed - {errors} exceptions ignored.", file=sys.stderr)
+
+        # Print the progress of the process
         counter = i + 1
         elapsed += duration
         time_remaining = (len(data) - counter) * (elapsed / counter)
         print(f"⏯️ Process: {(counter/len(data))*100:.2f}% - #️⃣ {counter}/{len(data)} files processed - ⏳ Time remaining : {str(datetime.timedelta(seconds=time_remaining))}")
         print("-----------------------------------")
-        cursor.close()
-        connection.close()
+
+    # Close the cursor and connection
+    cursor.close()
+    connection.close()
 
 def get_languages_list(data):
     for path in data:

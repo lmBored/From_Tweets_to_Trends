@@ -1,5 +1,6 @@
 import re
 import logging
+from googletrans import Translator
 
 airlines_dict = {"KLM": 56377143 ,
                  "AirFrance": 106062176 ,
@@ -56,7 +57,6 @@ def text_transformer(text):
     text = re.sub(r' 0 ', 'zero', text)
     text = re.sub(r'[^A-Za-z ]', '', text)
     text = re.sub(r'\n', '', text)
-    text = text.encode('utf-8', 'ignore').decode('utf-8') # remove non utf8 characters
     text = text.lower()
     return text
 
@@ -97,23 +97,27 @@ def preprocessor(tweet):
 
             tweets_info.update(users_info)  # Update the tweet information dictionary with user information
             
-            # Initialize a list to store mentioned airlines
-            airlines_mentioned = []
-            for airline in airlines_list_dict:
-                for i in airlines_list_dict[airline]:
-                    if i in text.lower():
-                        airlines_mentioned.append(airline)  # Add mentioned airlines to the list
-
-            mentioned_id = [i['id'] for i in tweet['entities']['user_mentions']]  # Get the IDs of mentioned users
-
             lang = tweet['lang']  # Get the language of the tweet
-
             # Set language as 'und' if it is not specified
             if ('lang' in tweet and tweet['lang'] == None) or 'lang' not in tweet:
                 lang = 'und'  # Set language as 'und' if it is not specified
             if lang not in languages_list:
                 return None  # Return None if the language is not in the supported languages
             
+            # Translate the text to English
+            translator = Translator()
+            translated_text = text
+            if lang != 'en':
+                translated_text = translator.translate(text, dest='en').text
+            # Initialize a list to store mentioned airlines
+            airlines_mentioned = []
+            for airline in airlines_list_dict:
+                for i in airlines_list_dict[airline]:
+                    if i in translated_text.lower():
+                        airlines_mentioned.append(airline)  # Add mentioned airlines to the list
+
+            mentioned_id = [i['id'] for i in tweet['entities']['user_mentions']]  # Get the IDs of mentioned users
+                
             # Initialize a dictionary to store extended tweet information
             extended_tweets = {'text':text, 'language':lang, 'mentioned_airlines':airlines_mentioned, 'user_mentions':mentioned_id}
             tweets_info.update(extended_tweets)  # Update the tweet information dictionary with extended tweet information

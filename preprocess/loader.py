@@ -40,7 +40,7 @@ def csv_adder(data, output_file = 'dataset.csv'):
                 print("Invalid choice.")
 
     # Open the output file in write mode
-    with open(output_file, 'w', newline='') as file:
+    with open(output_file, 'w', newline='', encoding='utf-8') as file:
         writer = None
         elapsed = 0
 

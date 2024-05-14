@@ -56,6 +56,7 @@ def text_transformer(text):
     text = re.sub(r' 0 ', 'zero', text)
     text = re.sub(r'[^A-Za-z ]', '', text)
     text = re.sub(r'\n', '', text)
+    text = text.decode('utf-8', 'ignore').encode('utf-8') # remove non utf8 characters
     text = text.lower()
     return text
 

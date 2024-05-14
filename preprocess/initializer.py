@@ -17,40 +17,41 @@ airlines_dict = {"KLM": 56377143 ,
 
 def table(connection):
     tweet_query = f"""
-            CREATE TABLE `{config.get('DATABASE')}`.`tweets` 
-            (`id` BIGINT ,
-            `text` TEXT NULL ,
-            `in_reply_to_status_id` BIGINT NULL , 
-            `in_reply_to_user_id` BIGINT NULL ,
-            `reply_count` BIGINT NULL ,
-            `favorite_count` BIGINT NULL ,
-            `coordinates` TEXT NULL ,
-            `timestamp_ms` BIGINT NULL ,
-            `retweet_count` INT NULL ,
-            `quoted_status_id` BIGINT NULL ,
-            `quote_count` BIGINT NULL ,
-            `verified` BOOLEAN NULL ,
-            `followers_count` INT NULL ,
-            `statuses_count` INT NULL ,
-            `user_id` BIGINT NULL ,
-            `language` VARCHAR(5) NULL ,
-            `mentioned_airlines` TEXT NULL ,
-            `user_mentions` TEXT NULL ,
-            `retweeted_status_id` BIGINT NULL ,
-            `retweeted_status_text` TEXT NULL ,
-            `retweeted_status_user_id` BIGINT NULL ,
-            `retweeted_status_verified` BOOLEAN NULL ,
-            `retweeted_status_followers_count` INT NULL ,
-            `retweeted_status_statuses_count` INT NULL ,
-            PRIMARY KEY (id)) ENGINE=InnoDB
-            """
+                CREATE TABLE `{config.get('DATABASE')}`.`tweets` 
+                (`id` BIGINT ,
+                `text` TEXT NULL ,
+                `in_reply_to_status_id` BIGINT NULL , 
+                `in_reply_to_user_id` BIGINT NULL ,
+                `reply_count` BIGINT NULL ,
+                `favorite_count` BIGINT NULL ,
+                `coordinates` TEXT NULL ,
+                `timestamp_ms` BIGINT NULL ,
+                `retweet_count` INT NULL ,
+                `quoted_status_id` BIGINT NULL ,
+                `quote_count` BIGINT NULL ,
+                `verified` BOOLEAN NULL ,
+                `followers_count` INT NULL ,
+                `statuses_count` INT NULL ,
+                `user_id` BIGINT NULL ,
+                `language` VARCHAR(5) NULL ,
+                `mentioned_airlines` TEXT NULL ,
+                `user_mentions` TEXT NULL ,
+                `retweeted_status_id` BIGINT NULL ,
+                `retweeted_status_text` TEXT NULL ,
+                `retweeted_status_user_id` BIGINT NULL ,
+                `retweeted_status_verified` BOOLEAN NULL ,
+                `retweeted_status_followers_count` INT NULL ,
+                `retweeted_status_statuses_count` INT NULL ,
+                PRIMARY KEY (id)) ENGINE=InnoDB
+                """
     conversation_query = f"""
-            CREATE TABLE `{config.get('DATABASE')}`.`conversation`
-            (`id` BIGINT ,
-            `in_reply_to_status_id` BIGINT NULL ,
-            `in_reply_to_user_id` BIGINT NULL ,
-            PRIMARY KEY (id)) ENGINE=InnoDB
-            """
+                CREATE TABLE `{config.get('DATABASE')}`.`conversation`
+                (`id` BIGINT ,
+                `start` BIGINT NOT NULL ,
+                `end` BIGINT NOT NULL ,
+                `airline` VARCHAR(50) NOT NULL ,
+                PRIMARY KEY (id)) ENGINE=InnoDB
+                """
     connection.cursor().execute(tweet_query)
     connection.cursor().execute(conversation_query)
 

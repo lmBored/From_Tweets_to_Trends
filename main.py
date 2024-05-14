@@ -1,6 +1,4 @@
-import re
-import timeit
-from preprocess import loader, initializer, conversation
+from preprocess import loader, initializer
 import os
 from pathlib import Path
 import mysql.connector
@@ -26,8 +24,8 @@ if __name__ == '__main__':
             loader.tweets_loader_csv(connection, data, path='dataset.csv')
         elif choice == 'load':
             loader.tweets_loader(connection, data)  
-        elif choice == 'conver':
-            loader.conversation_loader(connection, data)
+        # elif choice == 'conver':
+        #     conversation.conversation_loader(connection)
         elif choice == 'a':
             a = loader.csv_adder(data, output_file='dataset.csv')
             [next(a) for i in range(3)]

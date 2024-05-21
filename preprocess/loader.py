@@ -230,6 +230,7 @@ def csv_adder_tweets(data, output_file = 'tweets_dataset.csv'):
 
 def tweets_loader_csv(connection, data, path = 'tweets_dataset.csv'):
     # LOAD DATA LOCAL INFILE '~/dbl_data_challenge/tweets_dataset.csv' INTO TABLE tweets FIELDS TERMINATED BY ',' ENCLOSED BY "'"  IGNORE 1 ROWS;
+    query0 = """SET GLOBAL local_infile=ON;"""
     query1 = """SET FOREIGN_KEY_CHECKS=0;"""
     query = f"""
     LOAD DATA LOCAL INFILE '{path}'
@@ -238,6 +239,7 @@ def tweets_loader_csv(connection, data, path = 'tweets_dataset.csv'):
     ENCLOSED BY "'" 
     IGNORE 1 ROWS
     """
+    connection.cursor().execute(query0)
     connection.cursor().execute(query1)
     print("✅ Foreign key checks disabled.")
     connection.cursor().execute(query)

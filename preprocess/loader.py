@@ -236,7 +236,7 @@ def tweets_loader_csv(connection, data, path = 'tweets_dataset.csv'):
     INTO TABLE tweets
     FIELDS TERMINATED BY ','
     ENCLOSED BY "'" 
-    IGNORE 1 ROWSs
+    IGNORE 1 ROWS
     """
     connection.cursor().execute(query1)
     print("✅ Foreign key checks disabled.")

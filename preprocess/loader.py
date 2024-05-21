@@ -247,6 +247,8 @@ def tweets_loader_csv(connection, data, path = 'tweets_dataset.csv'):
     print(f"✅ {path} appended.")
     
 def users_loader_csv(connection, data, path = 'users_dataset.csv'):
+    query0 = """SET GLOBAL local_infile=ON;"""
+    query1 = """SET FOREIGN_KEY_CHECKS=0;"""
     query = f"""
     LOAD DATA LOCAL INFILE '{path}'
     INTO TABLE users
@@ -254,6 +256,9 @@ def users_loader_csv(connection, data, path = 'users_dataset.csv'):
     ENCLOSED BY "'" 
     IGNORE 1 ROWS
     """
+    connection.cursor().execute(query0)
+    connection.cursor().execute(query1)
+    print("✅ Foreign key checks disabled.")
     connection.cursor().execute(query)
     connection.commit()
     print(f"✅ {path} appended.")

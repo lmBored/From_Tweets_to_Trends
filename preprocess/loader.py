@@ -9,12 +9,12 @@ from preprocess import preprocessor
 import re
 
 file_with_missed_data = ['data/airlines-1565894560588.json',
-                         'data/airlines-1569957146471.json',
-                         'data/airlines-1573229502947.json',
-                         'data/airlines-1575313134067.json',
-                         'data/airlines-1570104381202.json',
-                         'data/airlines-1560138591670.json',
-                         'data/airlines-1560138591670.json']
+                        'data/airlines-1569957146471.json',
+                        'data/airlines-1573229502947.json',
+                        'data/airlines-1575313134067.json',
+                        'data/airlines-1570104381202.json',
+                        'data/airlines-1560138591670.json',
+                        'data/airlines-1560138591670.json']
 
 def reader(path):
     with open(path) as f:

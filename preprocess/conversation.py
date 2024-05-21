@@ -89,7 +89,7 @@ def conversation_adder(connection):
         if run % round(n/10) == 0:
             try:
                 connection.commit()
-            except:
+            except Exception as e:
                 logging.error(f"Error: {e}, Tweet: {tweet}")
                 errors += 1
         run += 1
@@ -104,10 +104,3 @@ def conversation_adder(connection):
         time_remaining = (n - counter) * (elapsed / counter)
         print(f"⏯️ Process: {(counter/n)*100:.2f}% - #️⃣ {counter}/{n} files processed - ⏳ Time remaining : {str(datetime.timedelta(seconds=time_remaining))}")
         print("-----------------------------------")    
-
-
-
-
-
-
-        

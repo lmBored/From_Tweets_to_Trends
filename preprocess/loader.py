@@ -240,6 +240,7 @@ def tweets_loader_csv(connection, data, path = 'tweets_dataset.csv'):
     IGNORE 1 ROWS
     """
     connection.cursor().execute(query0)
+    print("✅ Local infile enabled.")
     connection.cursor().execute(query1)
     print("✅ Foreign key checks disabled.")
     connection.cursor().execute(query)
@@ -257,6 +258,7 @@ def users_loader_csv(connection, data, path = 'users_dataset.csv'):
     IGNORE 1 ROWS
     """
     connection.cursor().execute(query0)
+    print("✅ Local infile enabled.")
     connection.cursor().execute(query1)
     print("✅ Foreign key checks disabled.")
     connection.cursor().execute(query)

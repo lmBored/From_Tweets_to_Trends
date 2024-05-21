@@ -21,7 +21,7 @@ DATABASE=your_dbname
 
 create your database:
 
-```console
+```mysql
 mysql> create database your_dbname;
 ```
 
@@ -47,6 +47,15 @@ user='root'
 ```
 in `main.py`.
 
+Before loading csv into mysql table:
+```mysql
+SET FOREIGN_KEY_CHECKS=0;
+```
+
+After loading:
+```mysql
+SET FOREIGN_KEY_CHECKS=1;
+```
 ## Preprocessing
 
 In order to add csv to your database, you can either:

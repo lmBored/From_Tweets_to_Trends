@@ -1,4 +1,4 @@
-from preprocess import loader, initializer
+from preprocess import loader, initializer, conversation
 import os
 from pathlib import Path
 import mysql.connector
@@ -15,20 +15,41 @@ if __name__ == '__main__':
             break
         elif choice == 'drop':
             initializer.drop(connection, 'tweets')
-            initializer.drop(connection, 'conversation')
+            initializer.drop(connection, 'users')
+            initializer.drop(connection, 'hasher')
+            initializer.drop(connection, 'conversations')
+            
+        elif choice == 'dropall': # Drop all tables and recreate them
+            initializer.drop_all(connection)
+            
         elif choice == 'make':
             initializer.table(connection)
-        elif choice == 'csvadd':
-            loader.csv_adder(data, output_file='dataset.csv')
-        elif choice == 'csvload':
-            loader.tweets_loader_csv(connection, data, path='dataset.csv')
-        elif choice == 'load':
-            loader.tweets_loader(connection, data)  
-        # elif choice == 'conver':
-        #     conversation.conversation_loader(connection)
+            
+        elif choice == 'delete':
+            initializer.delete(connection, 'tweets')
+            initializer.delete(connection, 'users')
+            initializer.delete(connection, 'hasher')
+            initializer.delete(connection, 'conversations')
+            
+        elif choice == 'csvaddtweets':
+            loader.csv_adder_tweets(data)
+        
+        elif choice == 'csvadduser':
+            loader.csv_adder_users(data)
+            
+        # LOAD DATA LOCAL INFILE '~/dbl_data_challenge/tweets_dataset.csv' INTO TABLE tweets FIELDS TERMINATED BY ',' ENCLOSED BY "'"  IGNORE 1 ROWS;
+        elif choice == 'csvloadtweets':
+            loader.tweets_loader_csv(connection, data)
+        
+        elif choice == 'csvloadusers':
+            loader.users_loader_csv(connection, data)
+            
+        elif choice == 'conver':
+            conversation.conversation_loader(connection)
+        
         elif choice == 'a':
             a = loader.csv_adder(data, output_file='dataset.csv')
-            [next(a) for i in range(3)]
+            [next(a) for i in range(1)]
         else:
             print("Invalid choice.")
 

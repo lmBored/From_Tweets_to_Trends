@@ -44,7 +44,7 @@ airlines_list_dict = {"KLM":  ['klm'],
                     "EtihadAirways":  ['etihad airways', 'etihadairways', 'etihad'],
                     "VirginAtlantic":  ['virgin atlantic', 'virginatlantic']}
 
-languages_list = ['en', 'de', 'es', 'fr', 'in', 'nl', 'it', 'pt']
+languages_list = ['en', 'de', 'es', 'fr', 'nl', 'it']
 
 def text_transformer(text):
     text = re.sub(r'http\S+', '', text)

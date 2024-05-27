@@ -10,3 +10,4 @@ config/.DS_Store
 .vscode/
 preprocess/__pycache__/
 Untitled0.ipynb
+word_counts.csv

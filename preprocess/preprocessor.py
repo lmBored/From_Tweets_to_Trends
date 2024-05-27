@@ -1,47 +1,48 @@
 import re
 import logging
+# import time
 # from googletrans import Translator
 
 airlines_dict = {"KLM": 56377143 ,
-                 "AirFrance": 106062176 ,
-                 "British_Airways": 18332190 ,
-                 "AmericanAir": 22536055 ,
-                 "Lufthansa": 124476322 ,
-                 "AirBerlin": 26223583 ,
-                 "AirBerlin assist": 2182373406 ,
-                 "easyJet": 38676903 ,
-                 "RyanAir": 1542862735 ,
-                 "SingaporeAir": 253340062 ,
-                 "Qantas": 218730857 ,
-                 "EtihadAirways": 45621423 ,
-                 "VirginAtlantic": 20626359
+                "AirFrance": 106062176 ,
+                "British_Airways": 18332190 ,
+                "AmericanAir": 22536055 ,
+                "Lufthansa": 124476322 ,
+                "AirBerlin": 26223583 ,
+                "AirBerlin assist": 2182373406 ,
+                "easyJet": 38676903 ,
+                "RyanAir": 1542862735 ,
+                "SingaporeAir": 253340062 ,
+                "Qantas": 218730857 ,
+                "EtihadAirways": 45621423 ,
+                "VirginAtlantic": 20626359
                 }
 
 tweets_keys = ['id',
-               'text',
-               'in_reply_to_status_id',
-               'coordinates',
-               'timestamp_ms',
-               'quoted_status_id']
+                'text',
+                'in_reply_to_status_id',
+                'coordinates',
+                'timestamp_ms',
+                'quoted_status_id']
 
 users_keys = ['id',
-              'verified',
-              'followers_count',
-              'statuses_count']
+            'verified',
+            'followers_count',
+            'statuses_count']
 
 airlines_list_dict = {"KLM":  ['klm'],
-                      "AirFrance":  ['airfrance', 'air france'],
-                      "British_Airways":  ['british_airways', 'british airways'],
-                      "AmericanAir":  ['americanair', 'american airlines', 'american air'],
-                      "Lufthansa":  ['lufthansa'],
-                      "AirBerlin":  ['airberlin', 'air berlin'],
-                      "AirBerlin assist":  ['airberlin assist', 'air berlin assist', 'airberlinassist'],
-                      "easyJet":  ['easyjet', 'easy jet'],
-                      "RyanAir":  ['ryanair', 'ryan air'],
-                      "SingaporeAir":  ['singaporeair', 'singapore airlines', 'singapore air'],
-                      "Qantas":  ['qantas'],
-                      "EtihadAirways":  ['etihad airways', 'etihadairways', 'etihad'],
-                      "VirginAtlantic":  ['virgin atlantic', 'virginatlantic']}
+                    "AirFrance":  ['airfrance', 'air france'],
+                    "British_Airways":  ['british_airways', 'british airways'],
+                    "AmericanAir":  ['americanair', 'american airlines', 'american air'],
+                    "Lufthansa":  ['lufthansa'],
+                    "AirBerlin":  ['airberlin', 'air berlin'],
+                    "AirBerlin assist":  ['airberlin assist', 'air berlin assist', 'airberlinassist'],
+                    "easyJet":  ['easyjet', 'easy jet'],
+                    "RyanAir":  ['ryanair', 'ryan air'],
+                    "SingaporeAir":  ['singaporeair', 'singapore airlines', 'singapore air'],
+                    "Qantas":  ['qantas'],
+                    "EtihadAirways":  ['etihad airways', 'etihadairways', 'etihad'],
+                    "VirginAtlantic":  ['virgin atlantic', 'virginatlantic']}
 
 languages_list = ['en', 'de', 'es', 'fr', 'in', 'nl', 'it', 'pt']
 
@@ -107,6 +108,7 @@ def preprocess_users_in_retweeted_status(tweet):
 def preprocessor_tweets(tweet):
     try:
         if 'delete' not in tweet:
+            # start_time = time.time()
             # Get the text from the tweet
             text = tweet['text']
             if 'retweeted_status' in tweet:
@@ -157,6 +159,8 @@ def preprocessor_tweets(tweet):
             mentioned_id = []
             if tweet.get('entities') and tweet['entities'].get('user_mentions'):  # Check if 'entities' and 'user_mentions' exist and are not None
                 mentioned_id = [i['id'] for i in tweet['entities']['user_mentions']]  # Get the IDs of mentioned users
+                
+            # score = sentiment_score.roberta(text)  # Get the sentiment score of the tweet
                 
             # Initialize a dictionary to store extended tweet information
             extended_tweets = {'text':text, 'language':lang, 'mentioned_airlines':airlines_mentioned, 'user_mentions':mentioned_id}
@@ -228,6 +232,8 @@ def preprocessor_tweets(tweet):
                 if tweets_info[i] == None:
                     tweets_info[i] = 'NULL'  # Set nullable values to 'NULL'
 
+            # print(f"Preprocessor time taken: {time.time() - start_time}")
+            
             return tweets_info  # Return the processed tweet information
             
     except Exception as e:

@@ -32,9 +32,7 @@ def conversation_adder(connection):
     n = len(tweets)
 
     member_of = {}
-    conv_id = 1
-    run = 0
-    
+    conversation_id = 1    
     elapsed = 0
     counter = 0
 
@@ -43,19 +41,19 @@ def conversation_adder(connection):
         print(f"📍 Processing: {t[0]}")
         start = timeit.default_timer()
         
-        tweet = t[0]
+        tweet_id = t[0]
         reply_id = t[2]
         tstamp = t[4]
         user_id = t[6]
         
-        if tweet in member_of:
-            convs = member_of.pop(tweet)
+        if tweet_id in member_of:
+            convs = member_of.pop(tweet_id)
             for conv in convs:
                 cursor.execute(f"SELECT * FROM `conversations` WHERE conversation_id={conv}")
                 conv_info=cursor.fetchall()
                 conv_airline = conv_info[0][3]
                 length = 1 + conv_info[0][4]          
-                cursor.execute(f"INSERT INTO `hasher`(id,conversation_id) VALUES ({tweet},{conv})")
+                cursor.execute(f"INSERT INTO `hasher`(id,conversation_id,conversation_rank) VALUES ({tweet_id},{conv},{length})")
                 if user_id in airlines:
                     if conv_airline == '0':
                         cursor.execute(f"""UPDATE `conversations` SET start={tstamp}, airline = '[{airlines[user_id]}]',
@@ -69,16 +67,16 @@ def conversation_adder(connection):
                 else:
                     cursor.execute(f"UPDATE `conversations` SET start={tstamp}, length = {length} WHERE conversation_id={conv}")
         else:
-            convs=[conv_id]
+            convs=[conversation_id]
             if reply_id != 0:
                 if user_id in airlines:
                     cursor.execute(f"""INSERT INTO `conversations`(conversation_id,start, end, airline, length)
-                    VALUES ({conv_id}, {tstamp}, {tstamp}, '[{airlines[user_id]}]', 1)""")
+                    VALUES ({conversation_id}, {tstamp}, {tstamp}, '[{airlines[user_id]}]', 1)""")
                 else:
                     cursor.execute(f"""INSERT INTO `conversations`(conversation_id,start, end, length)
-                    VALUES ({conv_id}, {tstamp}, {tstamp}, 1)""")
-                cursor.execute(f"INSERT INTO `hasher`(id,conversation_id) VALUES ({tweet},{conv_id})") 
-                conv_id += 1
+                    VALUES ({conversation_id}, {tstamp}, {tstamp}, 1)""")
+                cursor.execute(f"INSERT INTO `hasher`(id,conversation_id,conversation_rank) VALUES ({tweet_id},{conversation_id},1)") 
+                conversation_id += 1
         
         if reply_id != 0:
             if reply_id in member_of:
@@ -86,21 +84,62 @@ def conversation_adder(connection):
             else:
                 member_of[reply_id] = convs
                 
-        if run % round(n/10) == 0:
+        if counter % round(n/10) == 0:
+            try:
+                connection.commit()
+            except Exception as e:
+                logging.error(f"Error: {e}, tweet_id: {tweet_id}")
+                errors += 1
+        counter += 1
+        
+        duration = timeit.default_timer() - start
+        if errors == 0:
+                print(f"✅ {tweet_id} appended.")
+        else:
+            print(f"❌ {tweet_id} not appended processed - {errors} exceptions ignored.", file=sys.stderr)
+        counter += 1
+        elapsed += duration
+        time_remaining = (n - counter) * (elapsed / counter)
+        print(f"⏯️ Process: {(counter/n)*100:.2f}% - #️⃣ {counter}/{n} files processed - ⏳ Time remaining : {str(datetime.timedelta(seconds=time_remaining))}")
+        print("-----------------------------------")
+        
+	
+def normalize(connection):
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM `conversations`")
+    conversations = cursor.fetchall()
+    
+    counter = 0
+    elapsed = 0
+    n = len(conversations)
+    
+    for i in conversations:
+        start = timeit.default_timer()
+        errors = 0
+        
+        conversation_id = i[0] 
+        length = i[4]
+        cursor.execute(f"SELECT * FROM `hasher` WHERE conversation_id = {conversation_id}")
+        conversation = cursor.fetchall()
+        for tweet in conversation:
+            tweet_id = tweet[0]
+            rank = tweet[2] - 1
+            cursor.execute(f"""UPDATE `hasher` SET conversation_rank = {length - rank} WHERE id = {tweet_id} AND conversation_id = {conversation_id}""")
+        if counter % round(n/10) == 0:
             try:
                 connection.commit()
             except Exception as e:
                 logging.error(f"Error: {e}, Tweet: {tweet}")
                 errors += 1
-        run += 1
+        counter += 1
         
         duration = timeit.default_timer() - start
         if errors == 0:
-                print(f"✅ {tweet} appended.")
+                print(f"✅ {conversation_id} appended.")
         else:
-            print(f"❌ {tweet} not appended processed - {errors} exceptions ignored.", file=sys.stderr)
+            print(f"❌ {conversation_id} not appended processed - {errors} exceptions ignored.", file=sys.stderr)
         counter += 1
         elapsed += duration
         time_remaining = (n - counter) * (elapsed / counter)
         print(f"⏯️ Process: {(counter/n)*100:.2f}% - #️⃣ {counter}/{n} files processed - ⏳ Time remaining : {str(datetime.timedelta(seconds=time_remaining))}")
-        print("-----------------------------------")    
+        print("-----------------------------------")

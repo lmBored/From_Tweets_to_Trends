@@ -49,6 +49,9 @@ if __name__ == '__main__':
             
         elif choice == 'conver':
             conversation.conversation_adder(connection)
+            
+        elif choice == 'normalize':
+            conversation.normalize(connection)
         
         elif choice == 'a':
             a = loader.csv_adder(data, output_file='dataset.csv')

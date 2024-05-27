@@ -56,6 +56,7 @@ def table(connection):
                 CREATE TABLE `{config.get('DATABASE')}`.`hasher`
                 (`id` BIGINT NOT NULL,
                 `conversation_id` BIGINT NOT NULL,
+                `conversation_rank` SMALLINT NOT NULL,
                 PRIMARY KEY (id, conversation_id), 
                 FOREIGN KEY (id) REFERENCES `tweets`(id),
                 FOREIGN KEY (conversation_id) REFERENCES `conversations`(conversation_id)) ENGINE=InnoDB

@@ -5,8 +5,8 @@ from scipy.special import softmax
 import re
 # import time
 
-tokenizer = AutoTokenizer.from_pretrained("cardiffnlp/twitter-roberta-base-sentiment")
-model = AutoModelForSequenceClassification.from_pretrained("cardiffnlp/twitter-roberta-base-sentiment")
+tokenizer = AutoTokenizer.from_pretrained("cardiffnlp/twitter-roberta-base-sentiment-latest")
+model = AutoModelForSequenceClassification.from_pretrained("cardiffnlp/twitter-roberta-base-sentiment-latest")
 
 def transform_text(text):
     text = re.sub(r'([A-Za-z])\1{2,}', r'\1', text) # replace repeated texts, normalization

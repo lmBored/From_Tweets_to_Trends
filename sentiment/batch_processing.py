@@ -43,7 +43,7 @@ def update_sentiment_scores(connection):
     cursor.close()
     connection.close()
 
-    batch_size = 1000  # Adjust based on your memory and performance requirements
+    batch_size = 1000
     batches = [tweets[i:i + batch_size] for i in range(0, len(tweets), batch_size)]
 
     with Pool(cpu_count()) as pool:

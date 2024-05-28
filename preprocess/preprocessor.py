@@ -1,5 +1,8 @@
 import re
 import logging
+import sys
+sys.path.append('../dbl_data_challenge')
+import sentiment.sentiment_score as sentiment_score
 # import time
 # from googletrans import Translator
 
@@ -44,8 +47,7 @@ airlines_list_dict = {"KLM":  ['klm'],
                     "EtihadAirways":  ['etihad airways', 'etihadairways', 'etihad'],
                     "VirginAtlantic":  ['virgin atlantic', 'virginatlantic']}
 
-languages_list = ['en', 'de', 'es', 'fr', 'in', 'nl', 'it', 'pt']
-# languages_list = ['en', 'de', 'es', 'fr', 'nl', 'it']
+languages_list = ['en', 'de', 'es', 'fr', 'nl', 'it']
 
 def text_transformer(text):
     text = re.sub(r'http\S+', '', text)
@@ -54,6 +56,7 @@ def text_transformer(text):
     # text = re.sub(r'([A-Za-z])\1{2,}', r'\1', text) # replace repeated texts, normalization
     # text = re.sub(r'[^A-Za-z ]', '', text) # remove special characters
     text = re.sub(r'\n', '', text)
+    text = re.sub(r'[,.!?]', '', text)
     text = text.strip()
     text = text.lower()
     return text
@@ -107,7 +110,7 @@ def preprocess_users_in_retweeted_status(tweet):
         logging.error(f"Error: {e}")
         return None
 
-def preprocessor_tweets(tweet):
+def preprocessor_tweets(tweet, tokenizer, model):
     try:
         if 'delete' not in tweet:
             # start_time = time.time()
@@ -161,11 +164,12 @@ def preprocessor_tweets(tweet):
             mentioned_id = []
             if tweet.get('entities') and tweet['entities'].get('user_mentions'):  # Check if 'entities' and 'user_mentions' exist and are not None
                 mentioned_id = [i['id'] for i in tweet['entities']['user_mentions']]  # Get the IDs of mentioned users
-                
-            # score = sentiment_score.roberta(text)  # Get the sentiment score of the tweet
+            
+            # score = sentiment_score.roberta(text, tokenizer, model)  # Get the sentiment score of the tweet
+            score = 0
                 
             # Initialize a dictionary to store extended tweet information
-            extended_tweets = {'text':text, 'language':lang, 'mentioned_airlines':airlines_mentioned, 'user_mentions':mentioned_id}
+            extended_tweets = {'text':text, 'language':lang, 'mentioned_airlines':airlines_mentioned, 'user_mentions':mentioned_id, 'sentiment':score}
             tweets_info.update(extended_tweets)  # Update the tweet information dictionary with extended tweet information
         
             if 'retweeted_status' in tweet:

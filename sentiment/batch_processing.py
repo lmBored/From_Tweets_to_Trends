@@ -1,5 +1,5 @@
 import sys
-sys.path.append('../')
+sys.path.append('../dbl_data_challenge')
 from config import config
 import mysql.connector
 import timeit
@@ -9,15 +9,15 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from multiprocessing import Pool, cpu_count
 
 # Load the tokenizer and model once
-tokenizer = AutoTokenizer.from_pretrained("cardiffnlp/twitter-roberta-base-sentiment")
-model = AutoModelForSequenceClassification.from_pretrained("cardiffnlp/twitter-roberta-base-sentiment")
+tokenizer = AutoTokenizer.from_pretrained("cardiffnlp/twitter-roberta-base-sentiment-latest")
+model = AutoModelForSequenceClassification.from_pretrained("cardiffnlp/twitter-roberta-base-sentiment-latest")
 
 def sentiment_score(text):
     inputs = tokenizer(text, return_tensors="pt")
     with torch.no_grad():
         outputs = model(**inputs)
     probabilities = torch.nn.functional.softmax(outputs.logits, dim=-1)
-    score = (probabilities[0][2] - probabilities[0][0]).item()
+    score = (probabilities[0][2].item() - probabilities[0][0].item())
     return score
 
 def process_batch(batch):

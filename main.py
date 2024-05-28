@@ -58,7 +58,7 @@ if __name__ == '__main__':
             connection.commit()
         
         elif choice == 'a':
-            a = loader.csv_adder(data, output_file='dataset.csv')
+            a = loader.csv_adder_tweets(data, output_file='dataset.csv')
             [next(a) for i in range(1)]
         else:
             print("Invalid choice.")

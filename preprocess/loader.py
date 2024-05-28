@@ -1,12 +1,28 @@
+import itertools
 import sys
 import os
+from pathlib import Path
 import json
 import csv
 import logging
 import timeit
+import time
 import datetime
-from preprocess import preprocessor
+import preprocessor
 import re
+
+from transformers import AutoModelForSequenceClassification
+from transformers import TFAutoModelForSequenceClassification
+from transformers import AutoTokenizer, AutoConfig
+# import time
+
+from transformers import logging
+logging.set_verbosity_error()
+
+MODEL = f"cardiffnlp/twitter-roberta-base-sentiment-latest"
+tokenizer = AutoTokenizer.from_pretrained(MODEL)
+config = AutoConfig.from_pretrained(MODEL)
+model = AutoModelForSequenceClassification.from_pretrained(MODEL)
 
 file_with_missed_data = ['data/airlines-1565894560588.json',
                         'data/airlines-1569957146471.json',
@@ -24,6 +40,7 @@ def reader(path):
             except json.JSONDecodeError:
                 print(f"Error decoding JSON for line: {line}", file=sys.stderr)
                 continue
+            
 def csv_adder_users(data, output_file = 'users_dataset.csv'):
     # Check if the output file already exists and has contents
     if os.path.exists(output_file) and os.path.getsize(output_file) > 0:
@@ -163,18 +180,21 @@ def csv_adder_tweets(data, output_file = 'tweets_dataset.csv'):
     with open(output_file, 'w', newline='', encoding='utf-8') as file:
         writer = None
         elapsed = 0
+        length_data = len(data)
 
         # Iterate over the data files
         for i, path in enumerate(data):
             errors = 0
-            dataset = reader(path) # Read the data file
-
+            dataset, dataset0 = itertools.tee(reader(path)) # Read the data file
+            n = sum(1 for _ in dataset0) # Count the number of tweets in the data file
             print(f"📍 Processing: {path}")
+            
             start = timeit.default_timer() # Start the timer
-            # Iterate over the tweets in the data file
-            for j, tweet in enumerate(dataset):
+            elapsed_per_tweet = 0
+            for j, tweet in enumerate(dataset): # Iterate over the tweets in the data file
+                start_per_tweet = timeit.default_timer()
                 # Preprocess the tweet
-                p_tweet = preprocessor.preprocessor_tweets(tweet)
+                p_tweet = preprocessor.preprocessor_tweets(tweet, tokenizer, model)
                 if p_tweet is not None:
                     # Write the header row if it doesn't exist
                     if writer is None:
@@ -203,14 +223,21 @@ def csv_adder_tweets(data, output_file = 'tweets_dataset.csv'):
                         file.write(f"{values}\n") # Write the tweet to the CSV file
 
                     # Handle json.JSONDecodeError exceptions
-                    except json.JSONDecodeError as j:
+                    except json.JSONDecodeError as jso:
                         if path in file_with_missed_data:
-                            logging.error(f"File missing. {j}")
+                            logging.error(f"File missing. {jso}")
                             pass
 
                     except Exception as e:
                         logging.error(f"Error: {e}, Tweet: {tweet}")
                         errors += 1
+                        
+                    finally:
+                        duration_per_tweet = timeit.default_timer() - start_per_tweet
+                        counter_per_tweet = j + 1
+                        elapsed_per_tweet += duration_per_tweet
+                        time_remaining_per_tweet = (n - counter_per_tweet) * (elapsed_per_tweet / counter_per_tweet)
+                        print(f"🛝 Process: {(counter_per_tweet/n)*100:.2f}% - #️⃣ {counter_per_tweet}/{n} tweets processed - ⏳ Time remaining : {str(datetime.timedelta(seconds=time_remaining_per_tweet))}", end='\r')
                 
             # Calculate the duration of the process
             duration = timeit.default_timer() - start
@@ -224,9 +251,12 @@ def csv_adder_tweets(data, output_file = 'tweets_dataset.csv'):
             # Print the progress of the process
             counter = i + 1
             elapsed += duration
-            time_remaining = (len(data) - counter) * (elapsed / counter)
-            print(f"⏯️ Process: {(counter/len(data))*100:.2f}% - #️⃣ {counter}/{len(data)} files processed - ⏳ Time remaining : {str(datetime.timedelta(seconds=time_remaining))}")
+            time_remaining = (length_data - counter) * (elapsed / counter)
+            print(f"⏯️ Process: {(counter/length_data)*100:.2f}% - #️⃣ {counter}/{length_data} files processed - ⏳ Time remaining : {str(datetime.timedelta(seconds=time_remaining))}")
             print("-----------------------------------")
+            
+# data = [Path("data/"+file) for file in os.listdir('data')]
+# csv_adder_tweets(data)
 
 def tweets_loader_csv(connection, data, path = 'tweets_dataset.csv'):
     # LOAD DATA LOCAL INFILE '~/dbl_data_challenge/tweets_dataset.csv' INTO TABLE tweets FIELDS TERMINATED BY ',' ENCLOSED BY "'"  IGNORE 1 ROWS;

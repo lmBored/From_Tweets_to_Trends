@@ -1,7 +1,7 @@
 import sys
-sys.path.append('..')
-import mysql.connector
+sys.path.append('../')
 from config import config
+import mysql.connector
 import timeit
 import datetime
 import torch

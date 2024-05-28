@@ -53,6 +53,10 @@ if __name__ == '__main__':
         elif choice == 'normalize':
             conversation.normalize(connection)
         
+        elif choice == 'add_rank_col':
+            connection.cursor().execute('ALTER TABLE `hasher` ADD COLUMN `conversation_rank` SMALLINT NOT NULL')
+            connection.commit()
+        
         elif choice == 'a':
             a = loader.csv_adder(data, output_file='dataset.csv')
             [next(a) for i in range(1)]

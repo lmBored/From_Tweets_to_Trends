@@ -29,7 +29,6 @@ def table(connection):
                 `mentioned_airlines` TEXT NULL ,
                 `user_mentions` TEXT NULL ,
                 `retweeted_status_id` BIGINT NULL ,
-                `retweeted_status_text` TEXT NULL ,
                 `retweeted_status_user_id` BIGINT NULL ,
                 PRIMARY KEY (id),
                 FOREIGN KEY (user_id) REFERENCES `users`(user_id),

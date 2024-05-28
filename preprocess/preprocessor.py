@@ -53,7 +53,8 @@ def text_transformer(text):
     text = re.sub(r' 0 ', 'zero', text) # replace 0 with zero
     # text = re.sub(r'([A-Za-z])\1{2,}', r'\1', text) # replace repeated texts, normalization
     # text = re.sub(r'[^A-Za-z ]', '', text) # remove special characters
-    text = re.sub(r'\n', '', text) 
+    text = re.sub(r'\n', '', text)
+    text = text.strip()
     text = text.lower()
     return text
 
@@ -169,11 +170,9 @@ def preprocessor_tweets(tweet):
         
             if 'retweeted_status' in tweet:
                 # Initialize a dictionary to store retweeted status information
-                retweeted_status = {'id': 0, 'text': 'NULL'}
-                retweeted_status.update({k:v for k,v in tweet['retweeted_status'].items() if k in ['id', 'text']})  # Update the dictionary with retweeted status information
-                retweeted_status['text'] = text_transformer(retweeted_status['text'])  # Apply text transformation
+                retweeted_status = {'id': 0}
+                retweeted_status.update({k:v for k,v in tweet['retweeted_status'].items() if k in ['id']})  # Update the dictionary with retweeted status information
                 retweeted_status['retweeted_status_id'] = retweeted_status.pop('id')
-                retweeted_status['retweeted_status_text'] = retweeted_status.pop('text')
 
                 # if 'user' in tweet['retweeted_status']:
                 #     # Initialize a dictionary to store user information in the retweeted status
@@ -212,7 +211,7 @@ def preprocessor_tweets(tweet):
 
             else: # 'retweeted_status' not in tweet
                 # Initialize a dictionary to store retweeted status information
-                retweeted_status = {'retweeted_status_id': 0, 'retweeted_status_text': 'NULL', 'retweeted_status_user_id': 0}
+                retweeted_status = {'retweeted_status_id': 0, 'retweeted_status_user_id': 0}
                 # Initialize a dictionary to store user information in the retweeted status
                 # user_in_retweeted_status = {'retweeted_status_user_id': 0,
                 #                             'retweeted_status_verified':0,

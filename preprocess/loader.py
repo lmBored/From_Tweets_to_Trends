@@ -1,5 +1,6 @@
 import itertools
 import sys
+sys.path.append('../dbl_data_challenge')
 import os
 from pathlib import Path
 import json
@@ -8,7 +9,7 @@ import logging
 import timeit
 import time
 import datetime
-import preprocessor
+from preprocess import preprocessor
 import re
 
 from transformers import AutoModelForSequenceClassification
@@ -21,7 +22,7 @@ logging.set_verbosity_error()
 
 MODEL = f"cardiffnlp/twitter-roberta-base-sentiment-latest"
 tokenizer = AutoTokenizer.from_pretrained(MODEL)
-config = AutoConfig.from_pretrained(MODEL)
+configr = AutoConfig.from_pretrained(MODEL)
 model = AutoModelForSequenceClassification.from_pretrained(MODEL)
 
 file_with_missed_data = ['data/airlines-1565894560588.json',
@@ -194,7 +195,7 @@ def csv_adder_tweets(data, output_file = 'tweets_dataset.csv'):
             for j, tweet in enumerate(dataset): # Iterate over the tweets in the data file
                 start_per_tweet = timeit.default_timer()
                 # Preprocess the tweet
-                p_tweet = preprocessor.preprocessor_tweets(tweet, tokenizer, model)
+                p_tweet = preprocessor.preprocessor_tweets(tweet, tokenizer, model, configr)
                 if p_tweet is not None:
                     # Write the header row if it doesn't exist
                     if writer is None:
@@ -238,6 +239,8 @@ def csv_adder_tweets(data, output_file = 'tweets_dataset.csv'):
                         elapsed_per_tweet += duration_per_tweet
                         time_remaining_per_tweet = (n - counter_per_tweet) * (elapsed_per_tweet / counter_per_tweet)
                         print(f"🛝 Process: {(counter_per_tweet/n)*100:.2f}% - #️⃣ {counter_per_tweet}/{n} tweets processed - ⏳ Time remaining : {str(datetime.timedelta(seconds=time_remaining_per_tweet))}", end='\r')
+                        sys.stdout.flush()
+            print()
                 
             # Calculate the duration of the process
             duration = timeit.default_timer() - start

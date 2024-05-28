@@ -21,7 +21,7 @@ def transform_text(text):
     text = re.sub(r'@\S+', '@user', text) # replace user mentions
     return text
 
-def roberta(text, tokenizer, model):
+def roberta(text, tokenizer, model, configr):
     # start_time = time.time()
     ptext = transform_text(text)
     input = tokenizer(ptext, return_tensors='pt')
@@ -33,10 +33,13 @@ def roberta(text, tokenizer, model):
     
     # labels = ["negative", "neutral", "positive"]
     # sentiment_mapping = {"negative": -1, "neutral": 0, "positive": 1}
-    # sentiment_probabilities = [(labels[i], prob.item()) for i, prob in enumerate(score[0])]
+    # sentiment_probabilities = [(labels[i], prob.item()) for i, prob in enumerate(scores[0])]
     sentiment_score = scores[2].item() - scores[0].item()
     # sentiment_score = scores[0][2].item() - scores[0][0].item()
     # sentiment_score = sum(sentiment_mapping[label] * prob.item() for label, prob in zip(labels, score[0]))
+    
+    max_score = np.argmax(scores)
+    label = configr.id2label[max_score]
     
     # Log-odds
     # odds_pos = score[0][2].item() / (1 - score[0][2].item() + 1e-6)
@@ -45,4 +48,4 @@ def roberta(text, tokenizer, model):
     # normalized_score = 1 / (1 + np.exp(-log_odds_score))
     # print(f"Roberta time taken: {time.time() - start_time}")
     
-    return sentiment_score
+    return label, sentiment_score

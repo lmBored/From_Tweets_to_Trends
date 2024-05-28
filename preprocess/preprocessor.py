@@ -110,7 +110,7 @@ def preprocess_users_in_retweeted_status(tweet):
         logging.error(f"Error: {e}")
         return None
 
-def preprocessor_tweets(tweet, tokenizer, model):
+def preprocessor_tweets(tweet, tokenizer, model, configr):
     try:
         if 'delete' not in tweet:
             # start_time = time.time()
@@ -165,11 +165,11 @@ def preprocessor_tweets(tweet, tokenizer, model):
             if tweet.get('entities') and tweet['entities'].get('user_mentions'):  # Check if 'entities' and 'user_mentions' exist and are not None
                 mentioned_id = [i['id'] for i in tweet['entities']['user_mentions']]  # Get the IDs of mentioned users
             
-            # score = sentiment_score.roberta(text, tokenizer, model)  # Get the sentiment score of the tweet
-            score = 0
+            # score = sentiment_score.roberta(text, tokenizer, model, configr)[1]  # Get the sentiment score of the tweet
+            # label = sentiment_score.roberta(text, tokenizer, model, configr)[0]  # Get the sentiment label of the tweet
                 
             # Initialize a dictionary to store extended tweet information
-            extended_tweets = {'text':text, 'language':lang, 'mentioned_airlines':airlines_mentioned, 'user_mentions':mentioned_id, 'sentiment':score}
+            extended_tweets = {'text':text, 'language':lang, 'mentioned_airlines':airlines_mentioned, 'user_mentions':mentioned_id}
             tweets_info.update(extended_tweets)  # Update the tweet information dictionary with extended tweet information
         
             if 'retweeted_status' in tweet:

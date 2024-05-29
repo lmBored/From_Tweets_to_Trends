@@ -38,7 +38,7 @@ def conversation_adder(connection):
 
     for t in tweets:
         errors = 0
-        print(f"📍 Processing: {t[0]}")
+        print(f"📍 Processing tweet: {t[0]}")
         start = timeit.default_timer()
         
         tweet_id = t[0]
@@ -90,18 +90,19 @@ def conversation_adder(connection):
             except Exception as e:
                 logging.error(f"Error: {e}, tweet_id: {tweet_id}")
                 errors += 1
-        counter += 1
         
         duration = timeit.default_timer() - start
         if errors == 0:
-                print(f"✅ {tweet_id} appended.")
+                print(f"✅ Tweet with id {tweet_id} appended.")
         else:
             print(f"❌ {tweet_id} not appended processed - {errors} exceptions ignored.", file=sys.stderr)
         counter += 1
         elapsed += duration
         time_remaining = (n - counter) * (elapsed / counter)
-        print(f"⏯️ Process: {(counter/n)*100:.2f}% - #️⃣ {counter}/{n} files processed - ⏳ Time remaining : {str(datetime.timedelta(seconds=time_remaining))}")
+        print(f"⏯️ Process: {(counter/n)*100:.2f}% - #️⃣ {counter}/{n} tweets processed - ⏳ Time remaining : {str(datetime.timedelta(seconds=time_remaining))}")
         print("-----------------------------------")
+    
+    print("✅ Done!")
         
 	
 def normalize(connection):
@@ -131,15 +132,16 @@ def normalize(connection):
             except Exception as e:
                 logging.error(f"Error: {e}, Tweet: {tweet}")
                 errors += 1
-        counter += 1
         
         duration = timeit.default_timer() - start
         if errors == 0:
-                print(f"✅ {conversation_id} appended.")
+                print(f"✅ {conversation_id} modified.")
         else:
-            print(f"❌ {conversation_id} not appended processed - {errors} exceptions ignored.", file=sys.stderr)
+            print(f"❌ {conversation_id} not modified - {errors} exceptions ignored.", file=sys.stderr)
         counter += 1
         elapsed += duration
         time_remaining = (n - counter) * (elapsed / counter)
-        print(f"⏯️ Process: {(counter/n)*100:.2f}% - #️⃣ {counter}/{n} files processed - ⏳ Time remaining : {str(datetime.timedelta(seconds=time_remaining))}")
+        print(f"⏯️ Process: {(counter/n)*100:.2f}% - #️⃣ {counter}/{n} tweets processed - ⏳ Time remaining : {str(datetime.timedelta(seconds=time_remaining))}")
         print("-----------------------------------")
+        
+    print("✅ Done!")

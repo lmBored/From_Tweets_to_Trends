@@ -41,6 +41,13 @@ def roberta(text, tokenizer, model, configr):
     max_score = np.argmax(scores)
     label = configr.id2label[max_score]
     
+    ranking = np.argsort(scores)
+    ranking = ranking[::-1]
+    for i in range(scores.shape[0]):
+        l = configr.id2label[ranking[i]]
+        s = scores[ranking[i]]
+        print(f"{i+1}) {l} {np.round(float(s), 4)}")
+    
     # Log-odds
     # odds_pos = score[0][2].item() / (1 - score[0][2].item() + 1e-6)
     # odds_neg = score[0][0].item() / (1 - score[0][0].item() + 1e-6)

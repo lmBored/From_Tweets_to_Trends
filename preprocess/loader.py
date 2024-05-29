@@ -209,6 +209,7 @@ def csv_adder_tweets(data, output_file = 'tweets_dataset.csv'):
                         v = re.sub(r',', '', v)
                         v = re.sub(r'http\S+', 'url_removed', v)
                         v = re.sub(r'\n', '', v)
+                        v = v.strip()
                         if k not in ['text', 'coordinates', 'mentioned_airlines', 'user_mentions', 'retweeted_status_text']:
                             v = v.replace("'", "")
                         else:
@@ -216,7 +217,7 @@ def csv_adder_tweets(data, output_file = 'tweets_dataset.csv'):
                         raw_values.append(v)
                         
                         # Set the values of the tweet to append to the CSV file
-                        values = ", ".join(raw_values)
+                        values = ",".join(raw_values)
                         # p_tweet[k] = v
 
                     try:

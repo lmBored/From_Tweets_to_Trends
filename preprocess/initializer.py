@@ -64,15 +64,21 @@ def table(connection):
     connection.cursor().execute(tweets_query)
     connection.cursor().execute(conversation_query)
     connection.cursor().execute(hasher_query)
+    print("✅ Tables created!")
 
 def drop(connection, table):
     connection.cursor().execute(f"DROP TABLE IF EXISTS {table}")
+    print("✅ Table dropped!")
     
 def drop_all(connection):
     connection.cursor().execute("DROP DATABASE IF EXISTS "+config.get('DATABASE'))
+    print("✅ Database dropped!")
     connection.cursor().execute("CREATE DATABASE "+config.get('DATABASE'))
+    print("✅ Database created!")
     connection.cursor().execute("USE "+config.get('DATABASE'))
+    print("✅ Database selected!")
     table(connection)
     
 def delete(connection, table):
     connection.cursor().execute(f"DELETE FROM {table}")
+    print("✅ Table deleted!")

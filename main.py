@@ -2,13 +2,15 @@ from preprocess import loader, initializer, conversation
 import os
 from pathlib import Path
 import mysql.connector
+from mysql.connector import connect
 from config import config
 
 if __name__ == '__main__':
     data = [Path("data/"+file) for file in os.listdir('data')]
 
     connection = mysql.connector.connect(host=config.get('HOST'), user=config.get('USERNAME'), password=config.get('PASSWORD'),database=config.get('DATABASE'), allow_local_infile=True)    
-
+    # with connect(host=config.get('HOST'), user=config.get('USERNAME'), password=config.get('PASSWORD'),database=config.get('DATABASE'), allow_local_infile=True) as connection:
+    
     while True:
         choice = input("Which? ")
         if choice == 'q':
@@ -60,7 +62,16 @@ if __name__ == '__main__':
         elif choice == 'a':
             a = loader.csv_adder_tweets(data, output_file='dataset.csv')
             [next(a) for i in range(1)]
+            
+        elif choice == 'setup':
+            initializer.drop_all(connection)
+            loader.tweets_loader_csv(connection, data)
+            loader.users_loader_csv(connection, data)
+            conversation.conversation_adder(connection)
+            conversation.normalize(connection)
+        
         else:
             print("Invalid choice.")
 
-    connection.close()
+    if connection.is_connected():
+        connection.close()

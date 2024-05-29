@@ -6,6 +6,10 @@ import sentiment.sentiment_score as sentiment_score
 # import time
 # from googletrans import Translator
 
+logging.basicConfig(filename='tmp/preprocessor.log', level=logging.DEBUG, 
+                    format='%(asctime)s %(levelname)s %(name)s %(message)s')
+logger=logging.getLogger(__name__)
+
 airlines_dict = {"KLM": 56377143 ,
                 "AirFrance": 106062176 ,
                 "British_Airways": 18332190 ,
@@ -81,6 +85,7 @@ def preprocessor_users(tweet):
             
     except Exception as e:
         logging.error(f"Error: {e}")  # Log the error
+        logger.error(e)
         return None  # Return None in case of an error
 
 def preprocess_users_in_retweeted_status(tweet):
@@ -108,6 +113,7 @@ def preprocess_users_in_retweeted_status(tweet):
             
     except Exception as e:
         logging.error(f"Error: {e}")
+        logger.error(e)
         return None
 
 def preprocessor_tweets(tweet, tokenizer, model, configr):
@@ -242,4 +248,5 @@ def preprocessor_tweets(tweet, tokenizer, model, configr):
             
     except Exception as e:
         logging.error(f"Error: {e}")  # Log the error
+        logger.error(e)
         return None  # Return None in case of an error

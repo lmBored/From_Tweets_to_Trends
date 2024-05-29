@@ -3,6 +3,10 @@ import logging
 import sys
 import datetime
 
+logging.basicConfig(filename='tmp/conversation.log', level=logging.DEBUG, 
+                    format='%(asctime)s %(levelname)s %(name)s %(message)s')
+logger=logging.getLogger(__name__)
+
 airlines = {"KLM": 56377143 ,
             "AirFrance": 106062176 ,
             "British_Airways": 18332190 ,
@@ -89,6 +93,7 @@ def conversation_adder(connection):
                 connection.commit()
             except Exception as e:
                 logging.error(f"Error: {e}, tweet_id: {tweet_id}")
+                logger.error(e)
                 errors += 1
         
         duration = timeit.default_timer() - start
@@ -131,6 +136,7 @@ def normalize(connection):
                 connection.commit()
             except Exception as e:
                 logging.error(f"Error: {e}, Tweet: {tweet}")
+                logger.error(e)
                 errors += 1
         
         duration = timeit.default_timer() - start

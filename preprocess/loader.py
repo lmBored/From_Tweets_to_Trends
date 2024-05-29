@@ -12,6 +12,13 @@ import datetime
 from preprocess import preprocessor
 import re
 
+# with open('tmp/loader.log', 'w'):
+#     pass
+
+logging.basicConfig(filename='tmp/loader.log', level=logging.DEBUG, 
+                    format='%(asctime)s %(levelname)s %(name)s %(message)s')
+logger=logging.getLogger(__name__)
+
 from transformers import AutoModelForSequenceClassification
 from transformers import TFAutoModelForSequenceClassification
 from transformers import AutoTokenizer, AutoConfig
@@ -38,8 +45,9 @@ def reader(path):
         for line in f:
             try:
                 yield json.loads(line)
-            except json.JSONDecodeError:
+            except json.JSONDecodeError as e:
                 print(f"Error decoding JSON for line: {line}", file=sys.stderr)
+                logger.error(e)
                 continue
             
 def csv_adder_users(data, output_file = 'users_dataset.csv'):
@@ -141,10 +149,12 @@ def csv_adder_users(data, output_file = 'users_dataset.csv'):
                     except json.JSONDecodeError as j:
                         if path in file_with_missed_data:
                             logging.error(f"File missing. {j}")
+                            logger.error(j)
                             pass
 
                     except Exception as e:
                         logging.error(f"Error: {e}, Tweet: {tweet}")
+                        logger.error(e)
                         errors += 1
                 
             # Calculate the duration of the process
@@ -228,10 +238,12 @@ def csv_adder_tweets(data, output_file = 'tweets_dataset.csv'):
                     except json.JSONDecodeError as jso:
                         if path in file_with_missed_data:
                             logging.error(f"File missing. {jso}")
+                            logger.error(jso)
                             pass
 
                     except Exception as e:
                         logging.error(f"Error: {e}, Tweet: {tweet}")
+                        logger.error(e)
                         errors += 1
                         
                     finally:

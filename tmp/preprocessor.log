@@ -21,3 +21,45 @@
 2024-05-30 11:33:10,369 INFO mysql.connector plugin_name: caching_sha2_password
 2024-05-30 11:33:10,369 INFO mysql.connector AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
 2024-05-30 11:33:10,370 DEBUG mysql.connector new_auth_plugin: caching_sha2_password
+2024-05-30 11:46:02,027 DEBUG urllib3.connectionpool Starting new HTTPS connection (1): huggingface.co:443
+2024-05-30 11:46:04,397 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/tokenizer_config.json HTTP/1.1" 404 0
+2024-05-30 11:46:04,501 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/config.json HTTP/1.1" 200 0
+2024-05-30 11:46:04,659 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/tokenizer_config.json HTTP/1.1" 404 0
+2024-05-30 11:46:04,765 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/vocab.json HTTP/1.1" 200 0
+2024-05-30 11:46:04,978 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/config.json HTTP/1.1" 200 0
+2024-05-30 11:46:05,076 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/config.json HTTP/1.1" 200 0
+2024-05-30 11:46:05,478 DEBUG urllib3.connectionpool Starting new HTTPS connection (1): huggingface.co:443
+2024-05-30 11:46:08,795 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/model.safetensors HTTP/1.1" 404 0
+2024-05-30 11:46:09,532 DEBUG mysql.connector # _do_auth(): self._auth_plugin: 
+2024-05-30 11:46:09,532 INFO mysql.connector package: mysql.connector.plugins
+2024-05-30 11:46:09,532 INFO mysql.connector plugin_name: caching_sha2_password
+2024-05-30 11:46:09,533 INFO mysql.connector AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2024-05-30 11:46:09,533 DEBUG mysql.connector new_auth_plugin: caching_sha2_password
+2024-05-30 12:36:53,705 DEBUG urllib3.connectionpool Starting new HTTPS connection (1): huggingface.co:443
+2024-05-30 12:36:53,870 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/tokenizer_config.json HTTP/1.1" 404 0
+2024-05-30 12:36:53,975 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/config.json HTTP/1.1" 200 0
+2024-05-30 12:36:54,269 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/tokenizer_config.json HTTP/1.1" 404 0
+2024-05-30 12:36:54,370 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/vocab.json HTTP/1.1" 200 0
+2024-05-30 12:36:54,577 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/config.json HTTP/1.1" 200 0
+2024-05-30 12:36:54,678 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/config.json HTTP/1.1" 200 0
+2024-05-30 12:36:55,105 DEBUG urllib3.connectionpool Starting new HTTPS connection (1): huggingface.co:443
+2024-05-30 12:36:55,245 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/model.safetensors HTTP/1.1" 404 0
+2024-05-30 12:36:55,839 DEBUG mysql.connector # _do_auth(): self._auth_plugin: 
+2024-05-30 12:36:55,839 INFO mysql.connector package: mysql.connector.plugins
+2024-05-30 12:36:55,839 INFO mysql.connector plugin_name: caching_sha2_password
+2024-05-30 12:36:55,839 INFO mysql.connector AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2024-05-30 12:36:55,839 DEBUG mysql.connector new_auth_plugin: caching_sha2_password
+2024-05-30 12:37:27,027 DEBUG urllib3.connectionpool Starting new HTTPS connection (1): huggingface.co:443
+2024-05-30 12:37:27,179 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/tokenizer_config.json HTTP/1.1" 404 0
+2024-05-30 12:37:27,551 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/config.json HTTP/1.1" 200 0
+2024-05-30 12:37:27,722 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/tokenizer_config.json HTTP/1.1" 404 0
+2024-05-30 12:37:27,825 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/vocab.json HTTP/1.1" 200 0
+2024-05-30 12:37:28,037 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/config.json HTTP/1.1" 200 0
+2024-05-30 12:37:28,144 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/config.json HTTP/1.1" 200 0
+2024-05-30 12:37:28,437 DEBUG urllib3.connectionpool Starting new HTTPS connection (1): huggingface.co:443
+2024-05-30 12:37:28,583 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/model.safetensors HTTP/1.1" 404 0
+2024-05-30 12:37:28,794 DEBUG mysql.connector # _do_auth(): self._auth_plugin: 
+2024-05-30 12:37:28,794 INFO mysql.connector package: mysql.connector.plugins
+2024-05-30 12:37:28,794 INFO mysql.connector plugin_name: caching_sha2_password
+2024-05-30 12:37:28,794 INFO mysql.connector AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2024-05-30 12:37:28,794 DEBUG mysql.connector new_auth_plugin: caching_sha2_password

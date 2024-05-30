@@ -7,3 +7,17 @@
 2024-05-30 10:35:39,804 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/config.json HTTP/1.1" 200 0
 2024-05-30 10:35:40,263 DEBUG urllib3.connectionpool Starting new HTTPS connection (1): huggingface.co:443
 2024-05-30 10:35:40,409 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/model.safetensors HTTP/1.1" 404 0
+2024-05-30 11:33:08,002 DEBUG urllib3.connectionpool Starting new HTTPS connection (1): huggingface.co:443
+2024-05-30 11:33:08,170 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/tokenizer_config.json HTTP/1.1" 404 0
+2024-05-30 11:33:08,288 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/config.json HTTP/1.1" 200 0
+2024-05-30 11:33:08,438 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/tokenizer_config.json HTTP/1.1" 404 0
+2024-05-30 11:33:08,543 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/vocab.json HTTP/1.1" 200 0
+2024-05-30 11:33:08,765 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/config.json HTTP/1.1" 200 0
+2024-05-30 11:33:08,873 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/config.json HTTP/1.1" 200 0
+2024-05-30 11:33:09,310 DEBUG urllib3.connectionpool Starting new HTTPS connection (1): huggingface.co:443
+2024-05-30 11:33:09,455 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/model.safetensors HTTP/1.1" 404 0
+2024-05-30 11:33:10,369 DEBUG mysql.connector # _do_auth(): self._auth_plugin: 
+2024-05-30 11:33:10,369 INFO mysql.connector package: mysql.connector.plugins
+2024-05-30 11:33:10,369 INFO mysql.connector plugin_name: caching_sha2_password
+2024-05-30 11:33:10,369 INFO mysql.connector AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2024-05-30 11:33:10,370 DEBUG mysql.connector new_auth_plugin: caching_sha2_password

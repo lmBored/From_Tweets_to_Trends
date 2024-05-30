@@ -73,6 +73,11 @@ if __name__ == '__main__':
             loader.users_loader_csv(connection, data)
             conversation.conversation_adder(connection)
             conversation.normalize(connection)
+            
+        elif choice == "setup_conversation":
+            conversation.conversation_clear(connection)
+            conversation.conversation_adder(connection)
+            conversation.normalize(connection)
         
         else:
             print("Invalid choice.")

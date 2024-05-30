@@ -7,7 +7,18 @@ logging.basicConfig(filename='tmp/conversation.log', level=logging.DEBUG,
                     format='%(asctime)s %(levelname)s %(name)s %(message)s')
 logger=logging.getLogger(__name__)
 
-airlines = {"KLM": 56377143 ,
+def conversation_clear(connection):
+    connection.cursor().execute("DELETE FROM `hasher`")
+    connection.cursor().execute("DELETE FROM `conversations`")
+    print("Done!")
+
+def conversation_adder(connection):
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM tweets ORDER BY timestamp_ms DESC")
+    tweets = cursor.fetchall()
+    print("Done fetching tweets!")
+    
+    airlines = {"KLM": 56377143 ,
             "AirFrance": 106062176 ,
             "British_Airways": 18332190 ,
             "AmericanAir": 22536055 ,
@@ -21,17 +32,6 @@ airlines = {"KLM": 56377143 ,
             "EtihadAirways": 45621423 ,
             "VirginAtlantic": 20626359
             }
-
-def conversation_clear(connection):
-    connection.cursor().execute("DELETE FROM `hasher`")
-    connection.cursor().execute("DELETE FROM `conversations`")
-    print("Done!")
-
-def conversation_adder(connection):
-    cursor = connection.cursor()
-    cursor.execute("SELECT * FROM tweets ORDER BY timestamp_ms DESC")
-    tweets = cursor.fetchall()
-    print("Done fetching tweets!")
     
     n = len(tweets)
 

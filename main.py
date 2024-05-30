@@ -8,6 +8,7 @@ from config import config
 if __name__ == '__main__':
     if not os.path.exists('tmp'): # create a tmp directory if it hasn't been created
         os.makedirs('tmp')
+        print("✅ Created tmp directory.")
         
     data = [Path("data/"+file) for file in os.listdir('data')]
 

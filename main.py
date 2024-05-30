@@ -45,10 +45,10 @@ if __name__ == '__main__':
             
         # LOAD DATA LOCAL INFILE '~/dbl_data_challenge/tweets_dataset.csv' INTO TABLE tweets FIELDS TERMINATED BY ',' ENCLOSED BY "'"  IGNORE 1 ROWS;
         elif choice == 'csvloadtweets':
-            loader.tweets_loader_csv(connection, data)
+            loader.tweets_loader_csv(connection)
         
         elif choice == 'csvloadusers':
-            loader.users_loader_csv(connection, data)
+            loader.users_loader_csv(connection)
             
         elif choice == 'clean_conver':
             conversation.conversation_clear(connection)
@@ -69,8 +69,8 @@ if __name__ == '__main__':
             
         elif choice == 'setup':
             initializer.drop_all(connection)
-            loader.tweets_loader_csv(connection, data)
-            loader.users_loader_csv(connection, data)
+            loader.tweets_loader_csv(connection)
+            loader.users_loader_csv(connection)
             conversation.conversation_adder(connection)
             conversation.normalize(connection)
             
@@ -78,6 +78,14 @@ if __name__ == '__main__':
             conversation.conversation_clear(connection)
             conversation.conversation_adder(connection)
             conversation.normalize(connection)
+            
+        elif choice == 'conversation_and_hasher_to_csv':
+            conversation.convert_conversations_table_to_csv(connection)
+            conversation.convert_hasher_table_to_csv(connection)
+            
+        elif choice == 'csvloadconversationshasher':
+            conversation.csv_loader_hasher(connection)
+            conversation.csv_loader_conversations(connection)
         
         else:
             print("Invalid choice.")

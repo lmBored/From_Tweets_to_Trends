@@ -2,6 +2,7 @@ import timeit
 import logging
 import sys
 import datetime
+import csv
 
 logging.basicConfig(filename='tmp/conversation.log', level=logging.DEBUG, 
                     format='%(asctime)s %(levelname)s %(name)s %(message)s')
@@ -150,3 +151,70 @@ def normalize(connection):
         print("-----------------------------------")
         
     print("✅ Done!")
+    
+def convert_conversations_table_to_csv(connection):
+    cursor = connection.cursor()
+    query = "SELECT * FROM `conversations`"
+    cursor.execute(query)
+    conversations = cursor.fetchall()
+    column_names = [desc[0] for desc in cursor.description]
+    airline_index = column_names.index('airline')  # Get the index of the 'airline' column
+
+    with open('conversations_dataset.csv', 'w', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(column_names)
+        for row in conversations:
+            row = list(row)
+            row[airline_index] = f"'{row[airline_index]}'"  # Enclose the 'airline' value in single quotes
+            writer.writerow(row)
+    print("✅ Done!")
+    
+def convert_hasher_table_to_csv(connection):
+    cursor = connection.cursor()
+    query = "SELECT * FROM `hasher`"
+    cursor.execute(query)
+    hashers = cursor.fetchall()
+    column_names = [desc[0] for desc in cursor.description]
+
+    with open('hashers_dataset.csv', 'w', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(column_names)
+        for row in hashers:
+            writer.writerow(row)
+    print("✅ Done!")
+    
+def csv_loader_conversations(connection, path = 'conversations_dataset.csv'):
+    query0 = """SET GLOBAL local_infile=ON;"""
+    query1 = """SET FOREIGN_KEY_CHECKS=0;"""
+    query = f"""
+    LOAD DATA LOCAL INFILE '{path}'
+    INTO TABLE conversations
+    FIELDS TERMINATED BY ','
+    ENCLOSED BY "'" 
+    IGNORE 1 ROWS
+    """
+    connection.cursor().execute(query0)
+    print("✅ Local infile enabled.")
+    connection.cursor().execute(query1)
+    print("✅ Foreign key checks disabled.")
+    connection.cursor().execute(query)
+    connection.commit()
+    print(f"✅ {path} appended.")
+
+def csv_loader_hasher(connection, path = 'hasher_dataset.csv'):
+    query0 = """SET GLOBAL local_infile=ON;"""
+    query1 = """SET FOREIGN_KEY_CHECKS=0;"""
+    query = f"""
+    LOAD DATA LOCAL INFILE '{path}'
+    INTO TABLE hasher
+    FIELDS TERMINATED BY ','
+    ENCLOSED BY "'" 
+    IGNORE 1 ROWS
+    """
+    connection.cursor().execute(query0)
+    print("✅ Local infile enabled.")
+    connection.cursor().execute(query1)
+    print("✅ Foreign key checks disabled.")
+    connection.cursor().execute(query)
+    connection.commit()
+    print(f"✅ {path} appended.")

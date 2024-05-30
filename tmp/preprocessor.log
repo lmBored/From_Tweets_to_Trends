@@ -1,0 +1,9 @@
+2024-05-30 10:35:38,953 DEBUG urllib3.connectionpool Starting new HTTPS connection (1): huggingface.co:443
+2024-05-30 10:35:39,122 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/tokenizer_config.json HTTP/1.1" 404 0
+2024-05-30 10:35:39,223 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/config.json HTTP/1.1" 200 0
+2024-05-30 10:35:39,385 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/tokenizer_config.json HTTP/1.1" 404 0
+2024-05-30 10:35:39,491 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/vocab.json HTTP/1.1" 200 0
+2024-05-30 10:35:39,704 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/config.json HTTP/1.1" 200 0
+2024-05-30 10:35:39,804 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/config.json HTTP/1.1" 200 0
+2024-05-30 10:35:40,263 DEBUG urllib3.connectionpool Starting new HTTPS connection (1): huggingface.co:443
+2024-05-30 10:35:40,409 DEBUG urllib3.connectionpool https://huggingface.co:443 "HEAD /cardiffnlp/twitter-roberta-base-sentiment-latest/resolve/main/model.safetensors HTTP/1.1" 404 0

@@ -1,14 +1,14 @@
-from preprocess import loader, initializer, conversation
 import os
+if not os.path.exists('tmp'): # create a tmp directory if it hasn't been created
+    os.makedirs('tmp')
+    print("✅ Created tmp directory.")
+from preprocess import loader, initializer, conversation
 from pathlib import Path
 import mysql.connector
 from mysql.connector import connect
 from config import config
 
 if __name__ == '__main__':
-    if not os.path.exists('tmp'): # create a tmp directory if it hasn't been created
-        os.makedirs('tmp')
-        print("✅ Created tmp directory.")
         
     data = [Path("data/"+file) for file in os.listdir('data')]
 

@@ -11,42 +11,51 @@ cursor.execute("SHOW COLUMNS FROM tweets")
 columns = cursor.fetchall()
 tweet_columns = [col[0] for col in columns]
 tweet_columns_str = ','.join([f'tweets.{col}' for col in tweet_columns])
-
 print(tweet_columns_str)
 
 def get_queries(airline):
-    # Query for the conversation ID's for conversation with that airline
-    conv = f'''
-       SELECT conversation_id
-       FROM conversations
-       WHERE airline LIKE %{airline}%';
-    '''
     # Query for all tweets where the airline is mentioned
     mentioned = f'''
        SELECT * 
        FROM tweets
        WHERE mentioned_airlines LIKE '%{airline}%';
     '''
-    return conv, mentioned
+    return mentioned
 
 # This will return a table with all the tweets from the conversations with an given airline
 def get_table_airline(airline):
-    conv, mentioned = get_queries(airline)
+    query_mentioned = get_queries(airline)
 
-    # We somehow need to combine the conv query and the query below, but I don't know how to do it right now so please help
     query_tweets_conv = f'''
        SELECT {tweet_columns_str}
-       FROM tweets, conversations
+       FROM tweets
        JOIN hasher ON tweets.id = hasher.id
-       JOIN conversations ON hasher.conversation_id = conversations.conversation_id;
+       JOIN conversations ON hasher.conversation_id = conversations.conversation_id
+       WHERE conversations.conversation_id IN (
+           SELECT conv.conversation_id
+           FROM conversations AS conv
+           WHERE conv.airline LIKE '%{airline}%'
+       )
     '''
 
+    df_airline_conv = pd.read_sql(query_tweets_conv, connection)
+    df_airline_ment = pd.read_sql(query_mentioned, connection)
+
     # After we have obtained all the tweets belonging to a conversation and all the tweets where the airline is mentioned, we join the tables
-    join_tables = 'tbd'
-    df_airline = join_tables
+    df_all_tweets = pd.concat([df_airline_conv, df_airline_ment], ignore_index=True)
 
     # Then, we remove all duplicates
-    df_airline = df_airline # but then without duplicates
+    df_airline = df_all_tweets.drop_duplicates()
 
     return df_airline
 
+get_table_airline('KLM')
+
+def choose_airline():
+    airline = input('Choose KLM, British Airways, Lufthansa or AirFrance (and type it in the exact same way) ')
+    if airline == 'British Airways':
+        airline = 'British_Airways'
+
+    return get_table_airline(airline)
+
+#choose_airline()

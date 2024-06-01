@@ -201,7 +201,7 @@ def csv_loader_conversations(connection, path = 'conversations_dataset.csv'):
     connection.commit()
     print(f"✅ {path} appended.")
 
-def csv_loader_hasher(connection, path = 'hasher_dataset.csv'):
+def csv_loader_hasher(connection, path = 'hashers_dataset.csv'):
     query0 = """SET GLOBAL local_infile=ON;"""
     query1 = """SET FOREIGN_KEY_CHECKS=0;"""
     query = f"""

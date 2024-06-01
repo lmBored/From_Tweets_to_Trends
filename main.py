@@ -4,6 +4,7 @@ if not os.path.exists('tmp'): # create a tmp directory if it hasn't been created
     os.makedirs('tmp')
     print("✅ Created tmp directory.")
 from preprocess import loader, initializer, conversation
+from sentiment import categorize
 from pathlib import Path
 import mysql.connector
 from mysql.connector import connect
@@ -87,6 +88,9 @@ if __name__ == '__main__':
         elif choice == 'csvloadconversationshasher':
             conversation.csv_loader_hasher(connection)
             conversation.csv_loader_conversations(connection)
+        
+        elif choice == 'category':
+            categorize.categorize(connection)
         
         else:
             print("Invalid choice.")

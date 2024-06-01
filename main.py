@@ -1,4 +1,5 @@
 import os
+# os.makedirs('tmp', exist_ok=True)
 if not os.path.exists('tmp'): # create a tmp directory if it hasn't been created
     os.makedirs('tmp')
     print("✅ Created tmp directory.")

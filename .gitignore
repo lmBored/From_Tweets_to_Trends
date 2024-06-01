@@ -16,3 +16,5 @@ conversational.ipynb
 conversations_dataset.csv
 hashers_dataset.csv
 tmp/
+word_counts_1.csv
+config/__pycache__/

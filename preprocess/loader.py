@@ -100,7 +100,7 @@ def csv_adder_users(data, output_file = 'users_dataset.csv'):
                         v = re.sub(r',', '', v)
                         v = re.sub(r'http\S+', 'url_removed', v)
                         v = re.sub(r'\n', '', v)
-                        if k not in ['text', 'coordinates', 'mentioned_airlines', 'user_mentions']:
+                        if k not in ['text', 'coordinates', 'mentioned_airlines', 'user_mentions', 'language']:
                             v = v.replace("'", "")
                         else:
                             v = "'" + v.replace("'", "") + "'"
@@ -138,7 +138,7 @@ def csv_adder_users(data, output_file = 'users_dataset.csv'):
                         v = re.sub(r',', '', v)
                         v = re.sub(r'http\S+', 'url_removed', v)
                         v = re.sub(r'\n', '', v)
-                        if k not in ['text', 'coordinates', 'mentioned_airlines', 'user_mentions', 'retweeted_status_text']:
+                        if k not in ['text', 'coordinates', 'mentioned_airlines', 'user_mentions', 'language']:
                             v = v.replace("'", "")
                         else:
                             v = "'" + v.replace("'", "") + "'"
@@ -227,7 +227,7 @@ def csv_adder_tweets(data, output_file = 'tweets_dataset.csv'):
                         v = re.sub(r'http\S+', 'url_removed', v)
                         v = re.sub(r'\n', '', v)
                         v = v.strip()
-                        if k not in ['text', 'coordinates', 'mentioned_airlines', 'user_mentions', 'retweeted_status_text']:
+                        if k not in ['text', 'coordinates', 'mentioned_airlines', 'user_mentions', 'language']:
                             v = v.replace("'", "")
                         else:
                             v = "'" + v.replace("'", "") + "'"

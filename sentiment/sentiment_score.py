@@ -43,10 +43,10 @@ def roberta(text, tokenizer, model, configr):
     
     ranking = np.argsort(scores)
     ranking = ranking[::-1]
-    for i in range(scores.shape[0]):
-        l = configr.id2label[ranking[i]]
-        s = scores[ranking[i]]
-        print(f"{i+1}) {l} {np.round(float(s), 4)}")
+    # for i in range(scores.shape[0]):
+    #     l = configr.id2label[ranking[i]]
+    #     s = scores[ranking[i]]
+    #     print(f"{i+1}) {l} {np.round(float(s), 4)}")
     
     # Log-odds
     # odds_pos = score[0][2].item() / (1 - score[0][2].item() + 1e-6)
@@ -56,3 +56,23 @@ def roberta(text, tokenizer, model, configr):
     # print(f"Roberta time taken: {time.time() - start_time}")
     
     return label, sentiment_score
+
+def roberta1(text, tokenizer, model, configr):
+    ptext = transform_text(text)
+    
+    device = torch.device('cuda')
+    model.to(device)
+    
+    input = tokenizer(ptext, return_tensors='pt')
+    input = input.to(device)
+    
+    output = model(**input)
+    scores = output[0][0].cpu().detach().numpy()
+    scores = softmax(scores)
+    
+    sentiment_score = scores[2].item() - scores[0].item()
+    max_score = np.argmax(scores)
+    label = configr.id2label[max_score]
+    
+    return label, sentiment_score
+    

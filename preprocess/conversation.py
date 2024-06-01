@@ -1,10 +1,19 @@
 import timeit
 import logging
 import sys
+import os
+# Add the root directory to sys.path
+root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(root_dir)
 import datetime
 import csv
 
-logging.basicConfig(filename='tmp/conversation.log', level=logging.DEBUG, 
+# Ensure the logging directory exists
+tmp_dir = os.path.join(root_dir, 'tmp')
+os.makedirs(tmp_dir, exist_ok=True)
+
+log_file = os.path.join(tmp_dir, 'conversation.log')
+logging.basicConfig(filename=log_file, level=logging.DEBUG, 
                     format='%(asctime)s %(levelname)s %(name)s %(message)s')
 logger=logging.getLogger(__name__)
 
@@ -201,7 +210,7 @@ def csv_loader_conversations(connection, path = 'conversations_dataset.csv'):
     connection.commit()
     print(f"✅ {path} appended.")
 
-def csv_loader_hasher(connection, path = 'hasher_dataset.csv'):
+def csv_loader_hasher(connection, path = 'hashers_dataset.csv'):
     query0 = """SET GLOBAL local_infile=ON;"""
     query1 = """SET FOREIGN_KEY_CHECKS=0;"""
     query = f"""

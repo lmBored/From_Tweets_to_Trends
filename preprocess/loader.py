@@ -1,7 +1,9 @@
 import itertools
 import sys
-sys.path.append('../dbl_data_challenge')
 import os
+# Add the root directory to sys.path
+root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(root_dir)
 from pathlib import Path
 import json
 import csv
@@ -15,7 +17,12 @@ import re
 # with open('tmp/loader.log', 'w'):
 #     pass
 
-logging.basicConfig(filename='tmp/loader.log', level=logging.DEBUG, 
+# Ensure the logging directory exists
+tmp_dir = os.path.join(root_dir, 'tmp')
+os.makedirs(tmp_dir, exist_ok=True)
+
+log_file = os.path.join(tmp_dir, 'loader.log')
+logging.basicConfig(filename=log_file, level=logging.DEBUG, 
                     format='%(asctime)s %(levelname)s %(name)s %(message)s')
 logger=logging.getLogger(__name__)
 

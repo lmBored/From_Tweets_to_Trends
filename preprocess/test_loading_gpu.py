@@ -290,8 +290,14 @@ async def csv_adder_tweets(data, output_file='tweets_dataset_gpu.csv', batch_siz
                     if len(tweet_batch) == batch_size or j == n - 1:
                         preprocess_tasks = [async_preprocess_tweet(executor, tweet) for tweet in tweet_batch]
                         preprocessed_tweets = await asyncio.gather(*preprocess_tasks)
-
-                        valid_tweets = [(pt, text) for pt, text in preprocessed_tweets if pt is not None and text is not None]
+                        
+                        preprocessed_tweets = [item for item in preprocessed_tweets if isinstance(item, tuple) and len(item) == 2]
+                        
+                        try:
+                            valid_tweets = [(pt, text) for pt, text in preprocessed_tweets if pt is not None and text is not None]
+                        except Exception as e:
+                            print(f"Error: {e}")
+                            logger.error(e)
                         texts = [text for pt, text in valid_tweets]
 
                         if texts:

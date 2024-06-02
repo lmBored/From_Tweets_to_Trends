@@ -184,11 +184,11 @@ def preprocessor_tweets(tweet, tokenizer, model, configr):
             if tweet.get('entities') and tweet['entities'].get('user_mentions'):  # Check if 'entities' and 'user_mentions' exist and are not None
                 mentioned_id = [i['id'] for i in tweet['entities']['user_mentions']]  # Get the IDs of mentioned users
             
-            # label, score = roberta(text, tokenizer, model, configr)
+            label, score = roberta(text, tokenizer, model, configr)
                 
             # Initialize a dictionary to store extended tweet information
-            extended_tweets = {'text':text, 'language':lang, 'mentioned_airlines':airlines_mentioned, 'user_mentions':mentioned_id}
-            # extended_tweets = {'text': text, 'language': lang, 'mentioned_airlines': airlines_mentioned, 'user_mentions': mentioned_id, 'label': label, 'score': score}
+            # extended_tweets = {'text':text, 'language':lang, 'mentioned_airlines':airlines_mentioned, 'user_mentions':mentioned_id}
+            extended_tweets = {'text': text, 'language': lang, 'mentioned_airlines': airlines_mentioned, 'user_mentions': mentioned_id, 'label': label, 'score': score}
             tweets_info.update(extended_tweets)  # Update the tweet information dictionary with extended tweet information
         
             if 'retweeted_status' in tweet:

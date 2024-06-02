@@ -43,6 +43,10 @@ tokenizer = AutoTokenizer.from_pretrained(MODEL)
 configr = AutoConfig.from_pretrained(MODEL)
 model = AutoModelForSequenceClassification.from_pretrained(MODEL)
 
+device = torch.device('cuda' if torch.cuda.is_available() else 'mps' if torch.backends.mps.is_available() else 'cpu')
+# device = torch.device('mps' if torch.cuda.is_available() else 'cpu')
+model.to(device)
+
 #================================================================================================
 
 file_with_missed_data = ['data/airlines-1565894560588.json',
@@ -99,21 +103,20 @@ languages_list = ['en', 'de', 'es', 'fr', 'nl', 'it']
 #================================================================================================
 
 def transform_text(text):
-    text = re.sub(r'([A-Za-z])\1{2,}', r'\1', text) # replace repeated texts, normalization
-    text = re.sub(r'[^A-Za-z ]', '', text) # remove special characters
+    text = re.sub(r'([A-Za-z])\1{2,}', r'\1\1', text) # replace repeated texts, normalization
+    text = re.sub(r'[^A-Za-z0-9]+', '', text) # remove special characters
     text = re.sub(r'@\S+', '@user', text) # replace user mentions
     return text
 
 def roberta(text, tokenizer, model, configr):
     ptext = transform_text(text)
     
-    device = torch.device('cuda')
-    model.to(device)
-    
     input = tokenizer(ptext, return_tensors='pt')
     input = input.to(device)
     
-    output = model(**input)
+    with torch.no_grad():
+        output = model(**input)
+        
     scores = output[0][0].cpu().detach().numpy()
     scores = softmax(scores)
     
@@ -181,11 +184,11 @@ def preprocessor_tweets(tweet, tokenizer, model, configr):
             if tweet.get('entities') and tweet['entities'].get('user_mentions'):  # Check if 'entities' and 'user_mentions' exist and are not None
                 mentioned_id = [i['id'] for i in tweet['entities']['user_mentions']]  # Get the IDs of mentioned users
             
-            # score = roberta(text, tokenizer, model, configr)[1]  # Get the sentiment score of the tweet
-            # label = roberta(text, tokenizer, model, configr)[0]  # Get the sentiment label of the tweet
+            # label, score = roberta(text, tokenizer, model, configr)
                 
             # Initialize a dictionary to store extended tweet information
             extended_tweets = {'text':text, 'language':lang, 'mentioned_airlines':airlines_mentioned, 'user_mentions':mentioned_id}
+            # extended_tweets = {'text': text, 'language': lang, 'mentioned_airlines': airlines_mentioned, 'user_mentions': mentioned_id, 'label': label, 'score': score}
             tweets_info.update(extended_tweets)  # Update the tweet information dictionary with extended tweet information
         
             if 'retweeted_status' in tweet:

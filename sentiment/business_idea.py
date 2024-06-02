@@ -6,12 +6,7 @@ import mysql.connector
 connection = mysql.connector.connect(host='localhost', user='root', password='',database='jbg030', allow_local_infile=True)
 
 # Fetch column names for the tweets table
-cursor = connection.cursor()
-cursor.execute("SHOW COLUMNS FROM tweets")
-columns = cursor.fetchall()
-tweet_columns = [col[0] for col in columns]
-tweet_columns_str = ','.join([f'tweets.{col}' for col in tweet_columns])
-print(tweet_columns_str)
+# cursor = connection.cursor(dictionary=True)
 
 def get_queries(airline):
     # Query for all tweets where the airline is mentioned
@@ -27,7 +22,7 @@ def get_table_airline(airline):
     query_mentioned = get_queries(airline)
 
     query_tweets_conv = f'''
-       SELECT {tweet_columns_str}
+       SELECT *
        FROM tweets
        JOIN hasher ON tweets.id = hasher.id
        JOIN conversations ON hasher.conversation_id = conversations.conversation_id
@@ -49,7 +44,6 @@ def get_table_airline(airline):
 
     return df_airline
 
-get_table_airline('KLM')
 
 def choose_airline():
     airline = input('Choose KLM, British Airways, Lufthansa or AirFrance (and type it in the exact same way) ')

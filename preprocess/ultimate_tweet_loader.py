@@ -23,7 +23,7 @@ sys.path.append(root_dir)
 tmp_dir = os.path.join(root_dir, 'tmp')
 os.makedirs(tmp_dir, exist_ok=True)
 
-log_file = os.path.join(tmp_dir, 'preprocessor.log')
+log_file = os.path.join(tmp_dir, 'tweets_loader.log')
 logging.basicConfig(filename=log_file, level=logging.DEBUG, 
                     format='%(asctime)s %(levelname)s %(name)s %(message)s')
 logger=logging.getLogger(__name__)

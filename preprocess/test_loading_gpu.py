@@ -46,8 +46,8 @@ from transformers import TFAutoModelForSequenceClassification
 from transformers import AutoTokenizer, AutoConfig
 # import time
 
-from transformers import logging
-logging.set_verbosity_error()
+from transformers import logging as transformers_logging
+transformers_logging.set_verbosity_error()
 
 MODEL = f"cardiffnlp/twitter-roberta-base-sentiment-latest"
 tokenizer = AutoTokenizer.from_pretrained(MODEL)

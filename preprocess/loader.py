@@ -31,8 +31,8 @@ from transformers import TFAutoModelForSequenceClassification
 from transformers import AutoTokenizer, AutoConfig
 # import time
 
-from transformers import logging
-logging.set_verbosity_error()
+from transformers import logging as transformers_logging
+transformers_logging.set_verbosity_error()
 
 MODEL = f"cardiffnlp/twitter-roberta-base-sentiment-latest"
 tokenizer = AutoTokenizer.from_pretrained(MODEL)
@@ -163,6 +163,8 @@ def csv_adder_users(data, output_file = 'users_dataset.csv'):
                         logging.error(f"Error: {e}, Tweet: {tweet}")
                         logger.error(e)
                         errors += 1
+                else:
+                    continue
                 
             # Calculate the duration of the process
             duration = timeit.default_timer() - start
@@ -260,6 +262,8 @@ def csv_adder_tweets(data, output_file = 'tweets_dataset.csv'):
                         time_remaining_per_tweet = (n - counter_per_tweet) * (elapsed_per_tweet / counter_per_tweet)
                         print(f"🛝 Process: {(counter_per_tweet/n)*100:.2f}% - #️⃣ {counter_per_tweet}/{n} tweets processed - ⏳ Time remaining : {str(datetime.timedelta(seconds=time_remaining_per_tweet))}", end='\r')
                         sys.stdout.flush()
+                else:
+                    continue
             print()
                 
             # Calculate the duration of the process

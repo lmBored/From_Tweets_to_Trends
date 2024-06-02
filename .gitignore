@@ -12,7 +12,9 @@ preprocess/__pycache__/
 Untitled0.ipynb
 word_counts.csv
 sentiment/__pycache__
-tmp
 conversational.ipynb
 conversations_dataset.csv
 hashers_dataset.csv
+tmp/
+word_counts_1.csv
+config/__pycache__/

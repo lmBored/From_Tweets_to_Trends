@@ -16,8 +16,8 @@ config = AutoConfig.from_pretrained(MODEL)
 model = AutoModelForSequenceClassification.from_pretrained(MODEL)
 
 def transform_text(text):
-    text = re.sub(r'([A-Za-z])\1{2,}', r'\1', text) # replace repeated texts, normalization
-    text = re.sub(r'[^A-Za-z ]', '', text) # remove special characters
+    text = re.sub(r'([A-Za-z])\1{2,}', r'\1\1', text) # replace repeated texts, normalization
+    text = re.sub(r'[^A-Za-z0-9]+', '', text) # remove special characters
     text = re.sub(r'@\S+', '@user', text) # replace user mentions
     return text
 

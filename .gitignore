@@ -18,3 +18,4 @@ hashers_dataset.csv
 tmp/
 word_counts_1.csv
 config/__pycache__/
+training.1600000.processed.noemoticon.csv

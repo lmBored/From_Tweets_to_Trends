@@ -15,6 +15,9 @@ tokenizer = AutoTokenizer.from_pretrained(MODEL)
 config = AutoConfig.from_pretrained(MODEL)
 model = AutoModelForSequenceClassification.from_pretrained(MODEL)
 
+device = torch.device('cuda' if torch.cuda.is_available() else 'mps' if torch.backends.mps.is_available() else 'cpu')
+model.to(device)
+
 def transform_text(text):
     text = re.sub(r'([A-Za-z])\1{2,}', r'\1\1', text) # replace repeated texts, normalization
     text = re.sub(r'[^A-Za-z0-9]+', '', text) # remove special characters
@@ -22,6 +25,24 @@ def transform_text(text):
     return text
 
 def roberta(text, tokenizer, model, configr):
+    ptext = transform_text(text)
+    
+    input = tokenizer(ptext, return_tensors='pt')
+    input = input.to(device)
+    
+    with torch.no_grad():
+        output = model(**input)
+        
+    scores = output[0][0].cpu().detach().numpy()
+    scores = softmax(scores)
+    
+    sentiment_score = scores[2].item() - scores[0].item()
+    max_score = np.argmax(scores)
+    label = configr.id2label[max_score]
+    
+    return label, sentiment_score
+
+def roberta1(text, tokenizer, model, configr):
     # start_time = time.time()
     ptext = transform_text(text)
     input = tokenizer(ptext, return_tensors='pt')
@@ -54,25 +75,6 @@ def roberta(text, tokenizer, model, configr):
     # log_odds_score = np.log(odds_pos) - np.log(odds_neg)
     # normalized_score = 1 / (1 + np.exp(-log_odds_score))
     # print(f"Roberta time taken: {time.time() - start_time}")
-    
-    return label, sentiment_score
-
-def roberta1(text, tokenizer, model, configr):
-    ptext = transform_text(text)
-    
-    device = torch.device('cuda')
-    model.to(device)
-    
-    input = tokenizer(ptext, return_tensors='pt')
-    input = input.to(device)
-    
-    output = model(**input)
-    scores = output[0][0].cpu().detach().numpy()
-    scores = softmax(scores)
-    
-    sentiment_score = scores[2].item() - scores[0].item()
-    max_score = np.argmax(scores)
-    label = configr.id2label[max_score]
     
     return label, sentiment_score
     

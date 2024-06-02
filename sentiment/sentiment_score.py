@@ -1,19 +1,19 @@
-# from transformers import AutoModelForSequenceClassification
-# from transformers import TFAutoModelForSequenceClassification
-# from transformers import AutoTokenizer, AutoConfig
+from transformers import AutoModelForSequenceClassification
+from transformers import TFAutoModelForSequenceClassification
+from transformers import AutoTokenizer, AutoConfig
 import torch
 import numpy as np
 from scipy.special import softmax
 import re
-# import time
+import time
 
-# from transformers import logging
-# logging.set_verbosity_error()
+from transformers import logging
+logging.set_verbosity_error()
 
-# MODEL = f"cardiffnlp/twitter-roberta-base-sentiment-latest"
-# tokenizer = AutoTokenizer.from_pretrained(MODEL)
-# config = AutoConfig.from_pretrained(MODEL)
-# model = AutoModelForSequenceClassification.from_pretrained(MODEL)
+MODEL = f"cardiffnlp/twitter-roberta-base-sentiment-latest"
+tokenizer = AutoTokenizer.from_pretrained(MODEL)
+config = AutoConfig.from_pretrained(MODEL)
+model = AutoModelForSequenceClassification.from_pretrained(MODEL)
 
 def transform_text(text):
     text = re.sub(r'([A-Za-z])\1{2,}', r'\1', text) # replace repeated texts, normalization
@@ -46,7 +46,7 @@ def roberta(text, tokenizer, model, configr):
     for i in range(scores.shape[0]):
         l = configr.id2label[ranking[i]]
         s = scores[ranking[i]]
-        print(f"{i+1}) {l} {np.round(float(s), 4)}")
+        # print(f"{i+1}) {l} {np.round(float(s), 4)}")
     
     # Log-odds
     # odds_pos = score[0][2].item() / (1 - score[0][2].item() + 1e-6)

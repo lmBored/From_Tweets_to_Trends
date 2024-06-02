@@ -19,3 +19,4 @@ tmp/
 word_counts_1.csv
 config/__pycache__/
 training.1600000.processed.noemoticon.csv
+tweets_dataset_gpu.csv

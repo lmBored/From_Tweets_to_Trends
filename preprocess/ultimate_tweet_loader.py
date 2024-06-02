@@ -103,9 +103,13 @@ languages_list = ['en', 'de', 'es', 'fr', 'nl', 'it']
 #================================================================================================
 
 def transform_text(text):
-    text = re.sub(r'([A-Za-z])\1{2,}', r'\1\1', text) # replace repeated texts, normalization
-    text = re.sub(r'[^A-Za-z0-9]+', '', text) # remove special characters
-    text = re.sub(r'@\S+', '@user', text) # replace user mentions
+    text = text.lower()  # Normalize case
+    text = re.sub(r'http\S+|www\S+|https\S+', '', text, flags=re.MULTILINE)  # Remove URLs
+    text = re.sub(r'([A-Za-z])\1{2,}', r'\1\1', text)  # Replace repeated characters
+    text = re.sub(r'@\S+', '@user', text)  # Replace user mentions
+    text = re.sub(r'#', '', text)  # Optional: Remove the hashtag symbol, keep the word
+    text = re.sub(r'[^a-z0-9 ]+', '', text)  # Remove special characters
+    text = re.sub(r'\s+', ' ', text).strip()  # Remove extra spaces
     return text
 
 def roberta(text, tokenizer, model, configr):

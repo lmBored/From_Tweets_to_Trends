@@ -90,6 +90,7 @@ if __name__ == '__main__':
             conversation.csv_loader_conversations(connection)
         
         elif choice == 'category':
+            categorize.drop(connection)
             categorize.categorize(connection)
         
         else:

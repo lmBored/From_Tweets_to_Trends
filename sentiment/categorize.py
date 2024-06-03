@@ -57,3 +57,13 @@ def categorize(connection):
             cursor.fetchall()
             connection.commit()
             print(f'Modified column {category}.')
+            
+def drop(connection):
+    cursor = connection.cursor()
+    cursor.execute("ALTER TABLE tweets DROP baggage")
+    cursor.execute("ALTER TABLE tweets DROP delay_and_cancellation")
+    cursor.execute("ALTER TABLE tweets DROP staff")
+    cursor.execute("ALTER TABLE tweets DROP security_and_safety")
+    cursor.execute("ALTER TABLE tweets DROP money")
+    connection.commit()
+    print("Columns dropped.")

@@ -28,6 +28,8 @@ def table(connection):
                 `language` VARCHAR(5) NULL ,
                 `mentioned_airlines` TEXT NULL ,
                 `user_mentions` TEXT NULL ,
+                `label` TEXT NULL ,
+                `score` FLOAT NULL ,
                 `retweeted_status_id` BIGINT NULL ,
                 `retweeted_status_user_id` BIGINT NULL ,
                 PRIMARY KEY (id),

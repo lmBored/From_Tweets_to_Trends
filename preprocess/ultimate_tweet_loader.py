@@ -9,6 +9,9 @@ import itertools
 import csv
 import datetime
 from pathlib import Path
+import mysql.connector
+from config import config
+from preprocess import initializer
 
 #================================================================================================
 
@@ -250,7 +253,11 @@ def reader(path):
                 logger.error(e)
                 continue
             
-def csv_adder_tweets(data, output_file = 'tweets_dataset_gpu.csv'):
+def csv_adder_tweets(data, name, output_file = None):
+    # Set the output file name
+    if output_file is None:
+        output_file = f'tweets_dataset_{name}.csv'
+        
     # Check if the output file already exists and has contents
     if os.path.exists(output_file) and os.path.getsize(output_file) > 0:
         print(f"📛 {output_file} already exists and has contents. Overwrite? [y/n]")
@@ -350,5 +357,32 @@ def csv_adder_tweets(data, output_file = 'tweets_dataset_gpu.csv'):
             print(f"⏯️ Process: {(counter/length_data)*100:.2f}% - #️⃣ {counter}/{length_data} files processed - ⏳ Time remaining : {str(datetime.timedelta(seconds=time_remaining))}")
             print("-----------------------------------")
             
-data = [Path("data/"+file) for file in os.listdir('data')]
-csv_adder_tweets(data)
+name = input("Name? (khoi, ilse, illija, oliver, jan, sven) :")
+
+if name == 'khoi':
+    lines = [0, 95]
+elif name == 'ilse':
+    lines = [95, 190]
+elif name == 'illija':
+    lines = [190, 285]
+elif name == 'oliver':
+    lines = [285, 380]
+elif name == 'jan':
+    lines = [380, 475]
+elif name == 'sven':
+    lines = [475, 567]
+    
+files = []
+with open('json_files.txt') as file:
+    for i, line in enumerate(file):
+        if lines[0] <= i < lines[1]:
+            files.append(line.strip())
+
+data = [Path("data/"+file) for file in os.listdir('data') if file in files]
+
+connection = mysql.connector.connect(host='localhost', user='root', password=config.get('PASSWORD'),database='jbg030', allow_local_infile=True)
+
+# Drop all tables and recreate them
+initializer.drop_all(connection)
+
+csv_adder_tweets(data, name)

@@ -10,8 +10,6 @@ import csv
 import datetime
 from pathlib import Path
 import mysql.connector
-from config import config
-from preprocess import initializer
 
 #================================================================================================
 
@@ -30,6 +28,11 @@ log_file = os.path.join(tmp_dir, 'tweets_loader.log')
 logging.basicConfig(filename=log_file, level=logging.DEBUG, 
                     format='%(asctime)s %(levelname)s %(name)s %(message)s')
 logger=logging.getLogger(__name__)
+
+#================================================================================================
+
+from config import config
+from preprocess import initializer
 
 #================================================================================================
 

@@ -32,7 +32,6 @@ logger=logging.getLogger(__name__)
 #================================================================================================
 
 from config import config
-from preprocess import initializer
 
 #================================================================================================
 
@@ -385,8 +384,5 @@ with open('json_files.txt') as file:
 data = [Path("data/"+file) for file in os.listdir('data') if file in files]
 
 connection = mysql.connector.connect(host='localhost', user='root', password=config.get('PASSWORD'),database='jbg030', allow_local_infile=True)
-
-# Drop all tables and recreate them
-initializer.drop_all(connection)
 
 csv_adder_tweets(data, name)

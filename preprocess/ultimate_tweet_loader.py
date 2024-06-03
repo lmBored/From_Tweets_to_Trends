@@ -104,7 +104,8 @@ airlines_list_dict = {"KLM":  ['klm'],
                     "EtihadAirways":  ['etihad airways', 'etihadairways', 'etihad'],
                     "VirginAtlantic":  ['virgin atlantic', 'virginatlantic']}
 
-languages_list = ['en', 'de', 'es', 'fr', 'nl', 'it']
+# languages_list = ['en', 'de', 'es', 'fr', 'nl', 'it']
+languages_list = ['en']
 
 #================================================================================================
 
@@ -153,6 +154,14 @@ def text_transformer(text):
 def preprocessor_tweets(tweet, tokenizer, model, configr):
     try:
         if 'delete' not in tweet:
+            lang = tweet['lang']  # Get the language of the tweet
+            # Set language as 'und' if it is not specified
+            if ('lang' in tweet and tweet['lang'] == None) or 'lang' not in tweet:
+                lang = 'und'  # Set language as 'und' if it is not specified
+
+            if lang not in languages_list:
+                return None  # Return None if the language is not in the supported languages
+            
             # start_time = time.time()
             # Get the text from the tweet
             text = tweet['text']
@@ -173,14 +182,6 @@ def preprocessor_tweets(tweet, tokenizer, model, configr):
                 tweets_info['coordinates'] = str(tweet['coordinates']['coordinates'])
                 tweets_info['coordinates'] = re.sub(r'[\[\]]', '', tweets_info['coordinates'])
                 tweets_info['coordinates'] = re.sub(r',', ' and ', tweets_info['coordinates'])
-            
-            lang = tweet['lang']  # Get the language of the tweet
-            # Set language as 'und' if it is not specified
-            if ('lang' in tweet and tweet['lang'] == None) or 'lang' not in tweet:
-                lang = 'und'  # Set language as 'und' if it is not specified
-
-            if lang not in languages_list:
-                return None  # Return None if the language is not in the supported languages
 
             # Initialize a list to store mentioned airlines
             airlines_mentioned = []

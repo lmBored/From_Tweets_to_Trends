@@ -255,6 +255,7 @@ def reader(path):
                 print(f"Error decoding JSON for line: {line}", file=sys.stderr)
                 logger.error(e)
                 continue
+
             
 def csv_adder_tweets(data, name, output_file = None):
     # Set the output file name
@@ -361,7 +362,6 @@ def csv_adder_tweets(data, name, output_file = None):
             print("-----------------------------------")
             
 name = input("Name? (khoi, ilse, illija, oliver, jan, sven) :")
-
 if name == 'khoi':
     lines = [0, 95]
 elif name == 'ilse':
@@ -381,8 +381,8 @@ with open('json_files.txt') as file:
         if lines[0] <= i < lines[1]:
             files.append(line.strip())
 
-data = [Path("data/"+file) for file in os.listdir('data') if file in files]
+data = [Path("data") / file for file in os.listdir('data') if file in files]
 
-connection = mysql.connector.connect(host='localhost', user='root', password=config.get('PASSWORD'),database='jbg030', allow_local_infile=True)
+connection = mysql.connector.connect(host='localhost', user='root', password='ilija',database='dbl_database', allow_local_infile=True)
 
 csv_adder_tweets(data, name)

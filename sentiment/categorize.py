@@ -24,12 +24,6 @@ def categorize(connection):
         "flight-attendant", "attendant", "attendent", "host"
     ],
     
-    "security_and_safety": [
-        "secure", "securty", "security", "safe", "save", "savely", "safety", 
-        "safely", "emergency", "incident", "emergency landing", "accident", 
-        "burning", "fire", "burn", "panic"
-    ],
-    
     "money": [
         "money", "refund", "compensation", "compensatoin", "klaim", "claim", 
         "pay", "pays", "afford", "affort", "paid", "price", "expensive", 
@@ -60,10 +54,11 @@ def categorize(connection):
             
 def drop(connection):
     cursor = connection.cursor()
-    cursor.execute("ALTER TABLE tweets DROP baggage")
-    cursor.execute("ALTER TABLE tweets DROP delay_and_cancellation")
-    cursor.execute("ALTER TABLE tweets DROP staff")
-    cursor.execute("ALTER TABLE tweets DROP security_and_safety")
-    cursor.execute("ALTER TABLE tweets DROP money")
+    columns = ['baggage', 'delay_and_cancellation', 'staff', 'security_and_safety', 'money']
+    for column in columns:
+        cursor.execute(f"SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'tweets' AND COLUMN_NAME = '{column}'")
+        result = cursor.fetchone()
+        if result[0] > 0:
+            cursor.execute(f"ALTER TABLE tweets DROP COLUMN {column}")
     connection.commit()
     print("Columns dropped.")

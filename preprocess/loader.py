@@ -285,7 +285,7 @@ def csv_adder_tweets(data, output_file = 'tweets_dataset.csv'):
 # data = [Path("data/"+file) for file in os.listdir('data')]
 # csv_adder_tweets(data)
 
-def tweets_loader_csv(connection, path = 'tweets_dataset.csv'):
+def tweets_loader_csv(connection, path = 'combined_dataset.csv'):
     # LOAD DATA LOCAL INFILE '~/dbl_data_challenge/tweets_dataset.csv' INTO TABLE tweets FIELDS TERMINATED BY ',' ENCLOSED BY "'"  IGNORE 1 ROWS;
     query0 = """SET GLOBAL local_infile=ON;"""
     query1 = """SET FOREIGN_KEY_CHECKS=0;"""

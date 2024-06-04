@@ -14,7 +14,7 @@ def categorize(connection):
         "delay", "planedelays", "delayedflight", "flightdelayed", "delays", 
         "delayed", "dely", "dealy", "deleyed", "postpone", "postponed", 
         "postpones", "postpon", "pospnoe", "cancel", "cancelled", "canceled", 
-        "cancellation", "cancellations", "stuck"
+        "cancellation", "cancellations", "stuck", "wait", "waiting"
     ],
     
     "staff": [

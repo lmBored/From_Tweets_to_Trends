@@ -176,10 +176,9 @@ def text_transformer(text):
 def preprocess_tweet(tweet):
     try:
         if 'delete' not in tweet:
-            text = tweet['text']
-            if 'retweeted_status' in tweet:
-                if 'extended_tweet' in tweet['retweeted_status']:
-                    text = tweet['retweeted_status']['extended_tweet']['full_text']  # Get the full text from the extended tweet
+            text = tweet['text']                
+            if 'extended_tweet' in tweet.keys():
+                text = tweet['extended_tweet']['full_text']  # Get the full text from the extended tweet
                 
             text = text_transformer(text)  # Apply text transformation
 

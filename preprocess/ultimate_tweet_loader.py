@@ -159,10 +159,9 @@ def preprocessor_tweets(tweet, tokenizer, model, configr):
             
             # start_time = time.time()
             # Get the text from the tweet
-            text = tweet['text']
-            if 'retweeted_status' in tweet:
-                if 'extended_tweet' in tweet['retweeted_status']:
-                    text = tweet['retweeted_status']['extended_tweet']['full_text']  # Get the full text from the extended tweet
+            text = tweet['text']                
+            if 'extended_tweet' in tweet.keys():
+                text = tweet['extended_tweet']['full_text']  # Get the full text from the extended tweet
                 
             text = text_transformer(text)  # Apply text transformation
 
@@ -370,6 +369,10 @@ elif name == 'jan':
     lines = [380, 475]
 elif name == 'sven':
     lines = [475, 567]
+elif name == 'sven2':
+    lines = [553, 567]
+elif name == 'all':
+    lines = [0, 567]
     
 files = []
 with open('json_files.txt') as file:

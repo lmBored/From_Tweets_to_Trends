@@ -20,4 +20,12 @@ word_counts_1.csv
 config/__pycache__/
 training.1600000.processed.noemoticon.csv
 tweets_dataset_khoi.csv
+tweets_dataset_ilse.csv
+tweets_dataset_oliver.csv
+tweets_dataset_illija.csv
+tweets_dataset_jan.csv
+tweets_dataset_sven.csv
 tweets_dataset_gpu.csv
+tweets_dataset_all.csv
+json_files.txt
+combined_dataset.csv

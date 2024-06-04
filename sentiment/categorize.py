@@ -24,12 +24,6 @@ def categorize(connection):
         "flight-attendant", "attendant", "attendent", "host"
     ],
     
-    "security_and_safety": [
-        "secure", "securty", "security", "safe", "save", "savely", "safety", 
-        "safely", "emergency", "incident", "emergency landing", "accident", 
-        "burning", "fire", "burn", "panic"
-    ],
-    
     "money": [
         "money", "refund", "compensation", "compensatoin", "klaim", "claim", 
         "pay", "pays", "afford", "affort", "paid", "price", "expensive", 

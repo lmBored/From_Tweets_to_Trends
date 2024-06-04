@@ -148,9 +148,6 @@ def text_transformer(text):
 def preprocessor_tweets(tweet, tokenizer, model, configr):
     try:
         if 'delete' not in tweet:
-            if 'retweeted_status' in tweet.keys():
-                return None
-            
             lang = tweet['lang']  # Get the language of the tweet
             # Set language as 'und' if it is not specified
             if ('lang' in tweet and tweet['lang'] == None) or 'lang' not in tweet:
@@ -197,6 +194,28 @@ def preprocessor_tweets(tweet, tokenizer, model, configr):
             # extended_tweets = {'text':text, 'language':lang, 'mentioned_airlines':airlines_mentioned, 'user_mentions':mentioned_id}
             extended_tweets = {'text': text, 'language': lang, 'mentioned_airlines': airlines_mentioned, 'user_mentions': mentioned_id, 'label': label, 'score': score}
             tweets_info.update(extended_tweets)  # Update the tweet information dictionary with extended tweet information
+        
+            if 'retweeted_status' in tweet:
+                # Initialize a dictionary to store retweeted status information
+                retweeted_status = {'id': 0}
+                retweeted_status.update({k:v for k,v in tweet['retweeted_status'].items() if k in ['id']})  # Update the dictionary with retweeted status information
+                retweeted_status['retweeted_status_id'] = retweeted_status.pop('id')
+                
+                if 'user' in tweet['retweeted_status']:
+                    retweeted_status['retweeted_status_user_id'] = tweet['retweeted_status']['user']['id']
+                else:
+                    retweeted_status['retweeted_status_user_id'] = 0
+                
+                # Set none values to 'NULL'
+                for i in retweeted_status:
+                    if retweeted_status[i] == None:
+                        retweeted_status[i] == 'NULL'
+                tweets_info.update(retweeted_status)  # Update the tweet information dictionary with retweeted status information
+
+            else: # 'retweeted_status' not in tweet
+                # Initialize a dictionary to store retweeted status information
+                retweeted_status = {'retweeted_status_id': 0, 'retweeted_status_user_id': 0}
+                tweets_info.update(retweeted_status)  # Update the tweet information dictionary with retweeted status information
                         
             # Set nullable integer values to 0
             nullables_int = ['in_reply_to_status_id', 'quoted_status_id']

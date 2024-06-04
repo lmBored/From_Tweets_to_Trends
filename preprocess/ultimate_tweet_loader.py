@@ -9,7 +9,6 @@ import itertools
 import csv
 import datetime
 from pathlib import Path
-import mysql.connector
 
 #================================================================================================
 

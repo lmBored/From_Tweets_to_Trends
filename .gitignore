@@ -30,4 +30,3 @@ tweets_dataset_gpu.csv
 tweets_dataset_all.csv
 json_files.txt
 combined_dataset.csv
-sentiment_evolution.ipynb

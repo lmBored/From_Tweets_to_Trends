@@ -382,5 +382,6 @@ with open('json_files.txt') as file:
             files.append(line.strip())
 
 data = [Path("data/"+file) for file in os.listdir('data') if file in files]
+data.sort(key=lambda x: x.name)
 
 csv_adder_tweets(data, name)

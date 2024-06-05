@@ -9,7 +9,6 @@ import itertools
 import csv
 import datetime
 from pathlib import Path
-import mysql.connector
 
 #================================================================================================
 
@@ -28,10 +27,6 @@ log_file = os.path.join(tmp_dir, 'tweets_loader.log')
 logging.basicConfig(filename=log_file, level=logging.DEBUG, 
                     format='%(asctime)s %(levelname)s %(name)s %(message)s')
 logger=logging.getLogger(__name__)
-
-#================================================================================================
-
-from config import config
 
 #================================================================================================
 
@@ -153,6 +148,9 @@ def text_transformer(text):
 def preprocessor_tweets(tweet, tokenizer, model, configr):
     try:
         if 'delete' not in tweet:
+            if 'retweeted_status' in tweet.keys():
+                return None
+            
             lang = tweet['lang']  # Get the language of the tweet
             # Set language as 'und' if it is not specified
             if ('lang' in tweet and tweet['lang'] == None) or 'lang' not in tweet:
@@ -163,10 +161,9 @@ def preprocessor_tweets(tweet, tokenizer, model, configr):
             
             # start_time = time.time()
             # Get the text from the tweet
-            text = tweet['text']
-            if 'retweeted_status' in tweet:
-                if 'extended_tweet' in tweet['retweeted_status']:
-                    text = tweet['retweeted_status']['extended_tweet']['full_text']  # Get the full text from the extended tweet
+            text = tweet['text']                
+            if 'extended_tweet' in tweet.keys():
+                text = tweet['extended_tweet']['full_text']  # Get the full text from the extended tweet
                 
             text = text_transformer(text)  # Apply text transformation
 
@@ -200,28 +197,6 @@ def preprocessor_tweets(tweet, tokenizer, model, configr):
             # extended_tweets = {'text':text, 'language':lang, 'mentioned_airlines':airlines_mentioned, 'user_mentions':mentioned_id}
             extended_tweets = {'text': text, 'language': lang, 'mentioned_airlines': airlines_mentioned, 'user_mentions': mentioned_id, 'label': label, 'score': score}
             tweets_info.update(extended_tweets)  # Update the tweet information dictionary with extended tweet information
-        
-            if 'retweeted_status' in tweet:
-                # Initialize a dictionary to store retweeted status information
-                retweeted_status = {'id': 0}
-                retweeted_status.update({k:v for k,v in tweet['retweeted_status'].items() if k in ['id']})  # Update the dictionary with retweeted status information
-                retweeted_status['retweeted_status_id'] = retweeted_status.pop('id')
-                
-                if 'user' in tweet['retweeted_status']:
-                    retweeted_status['retweeted_status_user_id'] = tweet['retweeted_status']['user']['id']
-                else:
-                    retweeted_status['retweeted_status_user_id'] = 0
-                
-                # Set none values to 'NULL'
-                for i in retweeted_status:
-                    if retweeted_status[i] == None:
-                        retweeted_status[i] == 'NULL'
-                tweets_info.update(retweeted_status)  # Update the tweet information dictionary with retweeted status information
-
-            else: # 'retweeted_status' not in tweet
-                # Initialize a dictionary to store retweeted status information
-                retweeted_status = {'retweeted_status_id': 0, 'retweeted_status_user_id': 0}
-                tweets_info.update(retweeted_status)  # Update the tweet information dictionary with retweeted status information
                         
             # Set nullable integer values to 0
             nullables_int = ['in_reply_to_status_id', 'quoted_status_id']
@@ -374,6 +349,10 @@ elif name == 'jan':
     lines = [380, 475]
 elif name == 'sven':
     lines = [475, 567]
+elif name == 'sven2':
+    lines = [553, 567]
+elif name == 'all':
+    lines = [0, 567]
     
 files = []
 with open('json_files.txt') as file:
@@ -381,8 +360,8 @@ with open('json_files.txt') as file:
         if lines[0] <= i < lines[1]:
             files.append(line.strip())
 
-data = [Path("data") / file for file in os.listdir('data') if file in files]
+data = [Path("data/"+file) for file in os.listdir('data') if file in files]
 
-connection = mysql.connector.connect(host='localhost', user='root', password='ilija',database='dbl_database', allow_local_infile=True)
+connection = mysql.connector.connect(host='localhost', user='root', password=config.get('PASSWORD'),database='jbg030', allow_local_infile=True)
 
 csv_adder_tweets(data, name)

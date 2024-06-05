@@ -1,11 +1,9 @@
-import timeit
 import logging
 import sys
 import os
 # Add the root directory to sys.path
 root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(root_dir)
-import datetime
 import csv
 
 # Ensure the logging directory exists
@@ -20,13 +18,13 @@ logger=logging.getLogger(__name__)
 def conversation_clear(connection):
     connection.cursor().execute("DELETE FROM `hasher`")
     connection.cursor().execute("DELETE FROM `conversations`")
-    print("Done!")
+    print("✅ Done removing values from table hasher and conversations!")
 
 def conversation_adder(connection):
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM tweets ORDER BY timestamp_ms DESC")
     tweets = cursor.fetchall()
-    print("Done fetching tweets!")
+    print("✅ Done fetching tweets!")
     
     airlines= {56377143 : 'KLM',
             106062176:'AirFrance',
@@ -46,13 +44,10 @@ def conversation_adder(connection):
 
     member_of = {}
     conversation_id = 1    
-    elapsed = 0
     counter = 0
 
     for t in tweets:
         errors = 0
-        print(f"📍 Processing tweet: {t[0]}")
-        start = timeit.default_timer()
         
         tweet_id = t[0]
         reply_id = t[2]
@@ -97,26 +92,22 @@ def conversation_adder(connection):
             else:
                 member_of[reply_id] = convs
                 
-        if counter % round(n/100) == 0:
+        if counter % max(1, round(n / 100)) == 0:
             try:
                 connection.commit()
+                if errors == 0:
+                    print(f"✅ Tweet with id {tweet_id} appended.")
+                else:
+                    print(f"❌ Tweet with id {tweet_id} not appended - {errors} exceptions ignored.", file=sys.stderr)
+                print(f"⏯️ Process: {(counter / n) * 100:.2f}% - #️⃣ {counter + 1}/{n} tweets processed.")
+                print("-----------------------------------")
             except Exception as e:
                 logging.error(f"Error: {e}, tweet_id: {tweet_id}")
-                logger.error(e)
                 errors += 1
-        
-        duration = timeit.default_timer() - start
-        if errors == 0:
-                print(f"✅ Tweet with id {tweet_id} appended.")
-        else:
-            print(f"❌ {tweet_id} not appended processed - {errors} exceptions ignored.", file=sys.stderr)
+
         counter += 1
-        elapsed += duration
-        time_remaining = (n - counter) * (elapsed / counter)
-        print(f"⏯️ Process: {(counter/n)*100:.2f}% - #️⃣ {counter}/{n} tweets processed - ⏳ Time remaining : {str(datetime.timedelta(seconds=time_remaining))}")
-        print("-----------------------------------")
     
-    print("✅ Done!")
+    print("\n✅ Done!")
         
 	
 def normalize(connection):
@@ -125,11 +116,9 @@ def normalize(connection):
     conversations = cursor.fetchall()
     
     counter = 0
-    elapsed = 0
     n = len(conversations)
     
     for i in conversations:
-        start = timeit.default_timer()
         errors = 0
         
         conversation_id = i[0] 
@@ -140,24 +129,21 @@ def normalize(connection):
             tweet_id = tweet[0]
             rank = tweet[2] - 1
             cursor.execute(f"""UPDATE `hasher` SET conversation_rank = {length - rank} WHERE id = {tweet_id} AND conversation_id = {conversation_id}""")
-        if counter % round(n/10) == 0:
+        if counter % round(n/100) == 0:
             try:
                 connection.commit()
+                if errors == 0:
+                    print(f"✅ Tweet with id {tweet_id} appended.")
+                else:
+                    print(f"❌ Tweet with id {tweet_id} not appended - {errors} exceptions ignored.", file=sys.stderr)
+                print(f"⏯️ Process: {(counter / n) * 100:.2f}% - #️⃣ {counter + 1}/{n} tweets processed.")
+                print("-----------------------------------")
             except Exception as e:
                 logging.error(f"Error: {e}, Tweet: {tweet}")
                 logger.error(e)
                 errors += 1
         
-        duration = timeit.default_timer() - start
-        if errors == 0:
-                print(f"✅ {conversation_id} modified.")
-        else:
-            print(f"❌ {conversation_id} not modified - {errors} exceptions ignored.", file=sys.stderr)
         counter += 1
-        elapsed += duration
-        time_remaining = (n - counter) * (elapsed / counter)
-        print(f"⏯️ Process: {(counter/n)*100:.2f}% - #️⃣ {counter}/{n} tweets processed - ⏳ Time remaining : {str(datetime.timedelta(seconds=time_remaining))}")
-        print("-----------------------------------")
         
     print("✅ Done!")
     

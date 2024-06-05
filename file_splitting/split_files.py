@@ -6,6 +6,7 @@ sys.path.append(root_dir)
 from pathlib import Path
 
 data = [Path("data/"+file) for file in os.listdir('data')]
+data.sort(key=lambda x: x.name)
 
 with open('json_files.txt', 'w') as f:
     f.write('\n'.join(str(file).replace('data\\', '') for file in data))

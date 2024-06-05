@@ -69,27 +69,27 @@ if __name__ == '__main__':
             a = loader.csv_adder_tweets(data, output_file='dataset.csv')
             [next(a) for i in range(1)]
             
-        elif choice == 'setup':
+        elif choice == 'setup': # Run this to setup everything from beginning to conversation
             initializer.drop_all(connection)
             loader.tweets_loader_csv(connection)
             loader.users_loader_csv(connection)
             conversation.conversation_adder(connection)
             conversation.normalize(connection)
             
-        elif choice == "setup_conversation":
+        elif choice == "setup_conversation": # Run this to add data to conversation and hasher tables only
             conversation.conversation_clear(connection)
             conversation.conversation_adder(connection)
             conversation.normalize(connection)
             
-        elif choice == 'conversation_and_hasher_to_csv':
+        elif choice == 'conversation_and_hasher_to_csv': # Convert conversation and hasher tables to csv
             conversation.convert_conversations_table_to_csv(connection)
             conversation.convert_hasher_table_to_csv(connection)
             
-        elif choice == 'csvloadconversationshasher':
+        elif choice == 'csvloadconversationshasher': # Load conversation and hasher tables from csv
             conversation.csv_loader_hasher(connection)
             conversation.csv_loader_conversations(connection)
         
-        elif choice == 'category':
+        elif choice == 'categorize': # Categorize tweets into topics
             categorize.drop(connection)
             categorize.categorize(connection)
         

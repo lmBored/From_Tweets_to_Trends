@@ -141,6 +141,8 @@ def text_transformer(text):
     # text = re.sub(r'[^A-Za-z ]', '', text) # remove special characters
     text = re.sub(r'\n', '', text)
     text = re.sub(r'[,.!?]', '', text)
+    text = re.sub(r"\'", "", text)
+    text = re.sub(r'\\', '', text)
     text = text.strip()
     text = text.lower()
     return text

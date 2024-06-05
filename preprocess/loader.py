@@ -283,6 +283,7 @@ def csv_adder_tweets(data, output_file = 'tweets_dataset.csv'):
             print("-----------------------------------")
             
 # data = [Path("data/"+file) for file in os.listdir('data')]
+# data.sort(key=lambda x: x.name)
 # csv_adder_tweets(data)
 
 def tweets_loader_csv(connection, path = 'combined_dataset.csv'):

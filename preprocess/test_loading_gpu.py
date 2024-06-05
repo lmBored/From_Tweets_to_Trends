@@ -364,4 +364,5 @@ async def csv_adder_tweets(data, output_file='tweets_dataset_gpu.csv', batch_siz
 
 if __name__ == "__main__":
     data = [Path("data/"+file) for file in os.listdir('data')]
+    data.sort(key=lambda x: x.name)
     asyncio.run(csv_adder_tweets(data))

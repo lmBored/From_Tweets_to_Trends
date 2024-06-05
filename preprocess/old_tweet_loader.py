@@ -303,7 +303,7 @@ def csv_adder_tweets(data, name, output_file = None):
                         v = re.sub(r'http\S+', 'url_removed', v)
                         v = re.sub(r'\n', '', v)
                         v = v.strip()
-                        if k not in ['text', 'coordinates', 'mentioned_airlines', 'user_mentions', 'language']:
+                        if k not in ['text', 'coordinates', 'mentioned_airlines', 'user_mentions', 'language', 'label']:
                             v = v.replace("'", "")
                         else:
                             v = "'" + v.replace("'", "") + "'"

@@ -30,11 +30,8 @@ def table(connection):
                 `user_mentions` TEXT NULL ,
                 `label` TEXT NULL ,
                 `score` FLOAT NULL ,
-                `retweeted_status_id` BIGINT NULL ,
-                `retweeted_status_user_id` BIGINT NULL ,
                 PRIMARY KEY (id),
-                FOREIGN KEY (user_id) REFERENCES `users`(user_id),
-                FOREIGN KEY (retweeted_status_user_id) REFERENCES `users`(user_id)) ENGINE=InnoDB
+                FOREIGN KEY (user_id) REFERENCES `users`(user_id)) ENGINE=InnoDB
                 """
     users_query = f"""
                 CREATE TABLE `{config.get('DATABASE')}`.`users`

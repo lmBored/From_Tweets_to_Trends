@@ -93,6 +93,19 @@ if __name__ == '__main__':
         elif choice == 'categorize': # Categorize tweets into topics
             categorize.drop(connection)
             categorize.categorize(connection)
+            
+        elif choice == 'fck_the_tweets':
+            cursor = connection.cursor()
+    
+            # Delete corresponding rows in hasher table
+            query = "DELETE FROM hasher WHERE id IN (SELECT id FROM tweets WHERE user_id = 0)"
+            cursor.execute(query)
+            
+            # Delete tweets
+            query = "DELETE FROM tweets WHERE user_id = 0"
+            cursor.execute(query)
+            
+            connection.commit()
         
         else:
             print("Invalid choice.")

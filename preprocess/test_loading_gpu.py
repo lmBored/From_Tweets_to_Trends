@@ -169,8 +169,6 @@ def text_transformer(text):
     # text = re.sub(r'[^A-Za-z ]', '', text) # remove special characters
     text = re.sub(r'\n', '', text)
     text = re.sub(r'[,.!?]', '', text)
-    text = re.sub(r"\'", "", text)
-    text = re.sub(r'\\', '', text)
     text = text.strip()
     text = text.lower()
     return text
@@ -364,5 +362,4 @@ async def csv_adder_tweets(data, output_file='tweets_dataset_gpu.csv', batch_siz
 
 if __name__ == "__main__":
     data = [Path("data/"+file) for file in os.listdir('data')]
-    data.sort(key=lambda x: x.name)
     asyncio.run(csv_adder_tweets(data))

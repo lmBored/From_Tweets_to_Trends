@@ -141,8 +141,6 @@ def text_transformer(text):
     # text = re.sub(r'[^A-Za-z ]', '', text) # remove special characters
     text = re.sub(r'\n', '', text)
     text = re.sub(r'[,.!?]', '', text)
-    text = re.sub(r"\'", "", text)
-    text = re.sub(r'\\', '', text)
     text = text.strip()
     text = text.lower()
     return text
@@ -382,6 +380,5 @@ with open('json_files.txt') as file:
             files.append(line.strip())
 
 data = [Path("data/"+file) for file in os.listdir('data') if file in files]
-data.sort(key=lambda x: x.name)
 
 csv_adder_tweets(data, name)

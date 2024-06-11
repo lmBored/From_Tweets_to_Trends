@@ -1,18 +1,22 @@
+absl-py==2.1.0
+aiofiles==23.2.1
 anyio==4.3.0
 appnope==0.1.4
 argon2-cffi==23.1.0
 argon2-cffi-bindings==21.2.0
 arrow==1.3.0
 asttokens==2.4.1
+astunparse==1.6.3
 async-lru==2.0.4
 attrs==23.2.0
 Babel==2.14.0
 beautifulsoup4==4.12.3
 bleach==6.1.0
-certifi==2024.2.2
+Brotli @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_27zk0eqdh0/croot/brotli-split_1714483157007/work
+certifi @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_3bzbkiv4h_/croot/certifi_1707229182618/work/certifi
 cffi==1.16.0
 chardet==3.0.4
-charset-normalizer==3.3.2
+charset-normalizer @ file:///tmp/build/80754af9/charset-normalizer_1630003229654/work
 click==8.1.7
 comm==0.2.2
 contourpy==1.2.1
@@ -22,13 +26,18 @@ decorator==5.1.1
 defusedxml==0.7.1
 executing==2.0.1
 fastjsonschema==2.19.1
-filelock==3.14.0
+filelock @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/filelock_1701804468261/work
+flatbuffers==24.3.25
 fonttools==4.51.0
 fqdn==1.5.1
 fsspec==2024.3.1
+gast==0.5.4
+google-pasta==0.2.0
 googletrans==4.0.0rc1
+grpcio==1.64.0
 h11==0.9.0
 h2==3.2.0
+h5py==3.11.0
 hpack==3.0.0
 hstspreload==2024.5.1
 httpcore==0.9.1
@@ -40,7 +49,7 @@ ipykernel==6.29.4
 ipython==8.24.0
 isoduration==20.11.0
 jedi==0.19.1
-Jinja2==3.1.3
+Jinja2 @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_44yzu12j7f/croot/jinja2_1716993410427/work
 joblib==1.4.2
 json5==0.9.25
 jsonpointer==2.4
@@ -55,23 +64,32 @@ jupyter_server_terminals==0.5.3
 jupyterlab==4.1.8
 jupyterlab_pygments==0.3.0
 jupyterlab_server==2.27.1
+keras==3.3.3
 kiwisolver==1.4.5
 langdetect==1.0.9
+libclang==18.1.1
+Markdown==3.6
+markdown-it-py==3.0.0
 MarkupSafe==2.1.5
 matplotlib==3.8.4
 matplotlib-inline==0.1.7
+mdurl==0.1.2
 mistune==3.0.2
-mpmath==1.3.0
+ml-dtypes==0.3.2
+mpmath @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/mpmath_1699242500508/work
 mysql-connector-python==8.0.33
+namex==0.0.8
 nbclient==0.10.0
 nbconvert==7.16.4
 nbformat==5.10.4
 nest-asyncio==1.6.0
-networkx==3.3
+networkx @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/networkx_1699242555148/work
 nltk==3.8.1
 notebook==7.1.3
 notebook_shim==0.2.4
-numpy==1.26.4
+numpy @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_a51i_mbs7m/croot/numpy_and_numpy_base_1708638620867/work/dist/numpy-1.26.4-cp312-cp312-macosx_11_0_arm64.whl#sha256=37afb6b734a197702d848df93bd67c10b52f6467d56e518950d84b6b1c949d27
+opt-einsum==3.3.0
+optree==0.11.0
 overrides==7.7.0
 packaging==24.0
 pandas==2.2.2
@@ -79,7 +97,7 @@ pandocfilters==1.5.1
 parso==0.8.4
 pathlib==1.0.1
 pexpect==4.9.0
-pillow==10.3.0
+pillow @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_bdozlpra65/croot/pillow_1714398852206/work
 platformdirs==4.2.1
 prometheus_client==0.20.0
 prompt-toolkit==3.0.43
@@ -91,22 +109,25 @@ py4j==0.10.9.7
 pycparser==2.22
 Pygments==2.17.2
 pyparsing==3.1.2
+PySocks @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/pysocks_1699237568675/work
 pyspark==3.5.1
 pytesseract==0.3.10
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.0
 python-json-logger==2.0.7
 pytz==2024.1
-PyYAML==6.0.1
+PyYAML @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/pyyaml_1699240344586/work
 pyzmq==26.0.3
 referencing==0.35.1
 regex==2024.4.28
-requests==2.31.0
+requests @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_b143dxenr7/croot/requests_1716902835977/work
 rfc3339-validator==0.1.4
 rfc3986==1.5.0
 rfc3986-validator==0.1.1
+rich==13.7.1
 rpds-py==0.18.0
 safetensors==0.4.3
+scikit-learn==1.5.0
 scipy==1.13.0
 seaborn==0.13.2
 Send2Trash==1.8.3
@@ -115,23 +136,33 @@ six==1.16.0
 sniffio==1.3.1
 soupsieve==2.5
 stack-data==0.6.3
-sympy==1.12
+sympy @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_7cbpg8656h/croot/sympy_1701397648473/work
+tensorboard==2.16.2
+tensorboard-data-server==0.7.2
+tensorflow==2.16.1
+tensorflow-macos==2.16.1
+termcolor==2.4.0
 terminado==0.18.1
+threadpoolctl==3.5.0
 tinycss2==1.3.0
 tokenizers==0.19.1
 torch==2.3.0
+torchaudio==2.3.0
+torchvision==0.18.0
 tornado==6.4
 tqdm==4.66.2
 traitlets==5.14.3
 transformers==4.40.1
 types-python-dateutil==2.9.0.20240316
-typing_extensions==4.11.0
+typing_extensions @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_93dg13ilv4/croot/typing_extensions_1715268840722/work
 tzdata==2024.1
 uri-template==1.3.0
-urllib3==2.2.1
+urllib3 @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_22oz53beet/croot/urllib3_1715635830593/work
 vaderSentiment==3.3.2
 wcwidth==0.2.13
 webcolors==1.13
 webencodings==0.5.1
 websocket-client==1.8.0
+Werkzeug==3.0.3
 wheel==0.41.2
+wrapt==1.16.0

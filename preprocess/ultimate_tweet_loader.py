@@ -141,8 +141,6 @@ def text_transformer(text):
     # text = re.sub(r'[^A-Za-z ]', '', text) # remove special characters
     text = re.sub(r'\n', '', text)
     text = re.sub(r'[,.!?]', '', text)
-    text = re.sub(r"\'", "", text)
-    text = re.sub(r'\\', '', text)
     text = text.strip()
     text = text.lower()
     return text
@@ -232,6 +230,7 @@ def reader(path):
                 print(f"Error decoding JSON for line: {line}", file=sys.stderr)
                 logger.error(e)
                 continue
+
             
 def csv_adder_tweets(data, name, output_file = None):
     # Set the output file name
@@ -338,7 +337,6 @@ def csv_adder_tweets(data, name, output_file = None):
             print("-----------------------------------")
             
 name = input("Name? (khoi, ilse, illija, oliver, jan, sven) :")
-
 if name == 'khoi':
     lines = [0, 95]
 elif name == 'ilse':
@@ -363,6 +361,7 @@ with open('json_files.txt') as file:
             files.append(line.strip())
 
 data = [Path("data/"+file) for file in os.listdir('data') if file in files]
-data.sort(key=lambda x: x.name)
+
+connection = mysql.connector.connect(host='localhost', user='root', password=config.get('PASSWORD'),database='jbg030', allow_local_infile=True)
 
 csv_adder_tweets(data, name)

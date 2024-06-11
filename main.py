@@ -13,9 +13,8 @@ from config import config
 if __name__ == '__main__':
         
     data = [Path("data/"+file) for file in os.listdir('data')]
-    data.sort(key=lambda x: x.name)
 
-    connection = mysql.connector.connect(host='localhost', user='root', password=config.get('PASSWORD'),database='jbg030', allow_local_infile=True)  
+    connection = mysql.connector.connect(host='localhost', user='root', password='ilija',database='dbl_database', allow_local_infile=True)  
     # with connect(host=config.get('HOST'), user=config.get('USERNAME'), password=config.get('PASSWORD'),database=config.get('DATABASE'), allow_local_infile=True) as connection:
     
     while True:
@@ -93,19 +92,6 @@ if __name__ == '__main__':
         elif choice == 'categorize': # Categorize tweets into topics
             categorize.drop(connection)
             categorize.categorize(connection)
-            
-        elif choice == 'fck_the_tweets':
-            cursor = connection.cursor()
-    
-            # Delete corresponding rows in hasher table
-            query = "DELETE FROM hasher WHERE id IN (SELECT id FROM tweets WHERE user_id = 0)"
-            cursor.execute(query)
-            
-            # Delete tweets
-            query = "DELETE FROM tweets WHERE user_id = 0"
-            cursor.execute(query)
-            
-            connection.commit()
         
         else:
             print("Invalid choice.")

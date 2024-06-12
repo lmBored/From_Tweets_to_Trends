@@ -21,7 +21,7 @@
   <p align="center">
     Weird data challenge
     <br />
-    <a href="https://gitlab.tue.nl/20233498/dbl_data_challenge"><strong>Explore the docs »</strong></a>
+    <a href="https://gitlab.tue.nl/20233498/dbl_data_challenge/-/blob/main/README.md?ref_type=heads"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://gitlab.tue.nl/20233498/dbl_data_challenge">View Demo</a>
@@ -65,7 +65,7 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com/)
 
-This is a weird data challenge project, mainly about data preprocessing and data analysis (so data science stuff)
+This is a weird data challenge project, mainly about data preprocessing and data analysis (so data science stuff). Also use a sentiment analysis model.
 
 <!-- Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description` -->
 
@@ -78,7 +78,7 @@ This is a weird data challenge project, mainly about data preprocessing and data
 * [![React][React.js]][React-url]
 * [![Vue][Vue.js]][Vue-url] -->
 
-* **Python**
+* [![Python][Python]][Python]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -93,7 +93,7 @@ To remove the zip file, you can do:
 rm -f data/data.zip
 ```
 
-### Prerequisites
+## Prerequisites
 
 * Install [mysql](https://www.mysql.com/downloads/)
 * Install [python3](https://www.python.org/downloads/)
@@ -102,7 +102,7 @@ rm -f data/data.zip
   pip install -r requirements.txt
   ``` -->
 
-### Installation
+## Installation
 
 1. Clone the repo
    ```sh
@@ -205,7 +205,9 @@ Distributed under the TU/e License. Have to pay 69 euros to clone the repo.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
+<!-- Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com -->
+
+Go to momentum at 9am in the morning, knock on the side door 69 times, I will appear, else find my name being hidden in this repository and reverse search my contact.
 
 Project Link: [https://gitlab.tue.nl/20233498/dbl_data_challenge](https://gitlab.tue.nl/20233498/dbl_data_challenge)
 
@@ -216,9 +218,11 @@ Project Link: [https://gitlab.tue.nl/20233498/dbl_data_challenge](https://gitlab
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-* []()
-* []()
-* []()
+* [Never]()
+* [Gonna]()
+* [Give]()
+* [You]()
+* [Up]()
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -255,3 +259,5 @@ Project Link: [https://gitlab.tue.nl/20233498/dbl_data_challenge](https://gitlab
 [Bootstrap-url]: https://getbootstrap.com
 [JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
 [JQuery-url]: https://jquery.com 
+[Python]: https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54
+[Python-url]: https://www.python.org/

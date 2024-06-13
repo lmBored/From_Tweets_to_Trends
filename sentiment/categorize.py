@@ -54,7 +54,7 @@ def categorize(connection):
             
 def drop(connection):
     cursor = connection.cursor()
-    columns = ['baggage', 'delay_and_cancellation', 'staff', 'security_and_safety', 'money']
+    columns = ['baggage', 'delay_and_cancellation', 'staff', 'money']
     for column in columns:
         cursor.execute(f"SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'tweets' AND COLUMN_NAME = '{column}'")
         result = cursor.fetchone()

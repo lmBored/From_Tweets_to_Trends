@@ -78,7 +78,8 @@ This is a weird data challenge project, mainly about data preprocessing and data
 * [![React][React.js]][React-url]
 * [![Vue][Vue.js]][Vue-url] -->
 
-* [![Python][Python]][Python]
+* [![python][Python]][Python]
+* [![mysql][MySQL]][MySQL]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -97,6 +98,7 @@ rm -f data/data.zip
 
 * Install [mysql](https://www.mysql.com/downloads/)
 * Install [python3](https://www.python.org/downloads/)
+
 <!-- * python
   ```sh
   pip install -r requirements.txt
@@ -261,3 +263,5 @@ Project Link: [https://gitlab.tue.nl/20233498/dbl_data_challenge](https://gitlab
 [JQuery-url]: https://jquery.com 
 [Python]: https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54
 [Python-url]: https://www.python.org/
+[MySQL]: https://img.shields.io/badge/-MySQL-4479A1?style=flat-square&logo=mysql&labelColor=4479A1&logoColor=FFF
+[MySQL-url]: https://www.mysql.com/

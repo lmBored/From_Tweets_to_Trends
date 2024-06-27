@@ -16,7 +16,7 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">DBL Data Challenge</h3>
+<h3 align="center">From Tweets to Trends</h3>
 
   <p align="center">
     Weird data challenge

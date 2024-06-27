@@ -12,7 +12,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://gitlab.tue.nl/20233498/dbl_data_challenge">
+  <a href="https://github.com/lmBored/Twitter_analyzer">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
@@ -21,14 +21,14 @@
   <p align="center">
     Weird data challenge
     <br />
-    <a href="https://gitlab.tue.nl/20233498/dbl_data_challenge/-/blob/main/README.md?ref_type=heads"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/lmBored/Twitter_analyzer/-/blob/main/README.md?ref_type=heads"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://gitlab.tue.nl/20233498/dbl_data_challenge">View Demo</a>
+    <a href="https://github.com/lmBored/Twitter_analyzer">View Demo</a>
     ·
-    <a href="https://gitlab.tue.nl/20233498/dbl_data_challenge/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    <a href="https://github.com/lmBored/Twitter_analyzer/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·
-    <a href="https://gitlab.tue.nl/20233498/dbl_data_challenge/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://github.com/lmBored/Twitter_analyzer/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
   </p>
 </div>
 
@@ -169,7 +169,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
     - [ ] Add log file to report errors when loading the data
     - [ ] Add checkpoints
 
-See the [open issues](https://gitlab.tue.nl/20233498/dbl_data_challenge/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/lmBored/Twitter_analyzer/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -211,7 +211,7 @@ Distributed under the TU/e License. Have to pay 69 euros to clone the repo.
 
 Go to momentum at 9am in the morning, knock on the side door 69 times, I will appear, else find my name being hidden in this repository and reverse search my contact.
 
-Project Link: [https://gitlab.tue.nl/20233498/dbl_data_challenge](https://gitlab.tue.nl/20233498/dbl_data_challenge)
+Project Link: [https://github.com/lmBored/Twitter_analyzer](https://github.com/lmBored/Twitter_analyzer)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -233,15 +233,15 @@ Project Link: [https://gitlab.tue.nl/20233498/dbl_data_challenge](https://gitlab
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/github_username/repo_name.svg?style=for-the-badge
-[contributors-url]: https://gitlab.tue.nl/20233498/dbl_data_challenge/graphs/contributors
+[contributors-url]: https://github.com/lmBored/Twitter_analyzer/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/github_username/repo_name.svg?style=for-the-badge
-[forks-url]: https://gitlab.tue.nl/20233498/dbl_data_challenge/network/members
+[forks-url]: https://github.com/lmBored/Twitter_analyzer/network/members
 [stars-shield]: https://img.shields.io/github/stars/github_username/repo_name.svg?style=for-the-badge
-[stars-url]: https://gitlab.tue.nl/20233498/dbl_data_challenge/stargazers
+[stars-url]: https://github.com/lmBored/Twitter_analyzer/stargazers
 [issues-shield]: https://img.shields.io/github/issues/github_username/repo_name.svg?style=for-the-badge
-[issues-url]: https://gitlab.tue.nl/20233498/dbl_data_challenge/issues
+[issues-url]: https://github.com/lmBored/Twitter_analyzer/issues
 [license-shield]: https://img.shields.io/github/license/github_username/repo_name.svg?style=for-the-badge
-[license-url]: https://gitlab.tue.nl/20233498/dbl_data_challenge/blob/master/LICENSE.txt
+[license-url]: https://github.com/lmBored/Twitter_analyzer/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/linkedin_username
 [product-screenshot]: images/screenshot.png
